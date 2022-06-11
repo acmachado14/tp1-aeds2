@@ -1,2 +1,5 @@
-run:
+compile:
 	gcc src/main.c src/tree/patricia.c -o exefile
+
+run:
+	./exefile
