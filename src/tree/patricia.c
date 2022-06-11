@@ -1,11 +1,15 @@
 #include <stdio.h>
 #include <stdlib.h>
+#include <string.h>
 #include "patricia.h"
 
 char Caractere(short i, String k)
 {
     /* Retorna o i-esimo Caractere da chave k a partir da esquerda */
-    return i > strlen(k)? NULL: k[i];
+    if (i > strlen(k)){
+        return k[i];
+    }
+    return NULL;
 }
 boolean MenorIgual(char a, char b)
 {
