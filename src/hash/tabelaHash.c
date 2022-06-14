@@ -2,7 +2,7 @@
 //Arthur - 4679
 //Iury - 4671
 
-#include "TabelaHash.h"
+#include "tabelaHash.h"
 
 
 void GerarPesos(Pesos *pesos){
