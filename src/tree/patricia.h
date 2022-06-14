@@ -1,3 +1,6 @@
+//Angelo - 4695
+//Arthur - 4679
+//Iury - 4671
 #define TADPATRICIA_H
 
 #define TRUE 1
