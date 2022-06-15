@@ -11,12 +11,15 @@ typedef struct{
     int *pesos;
 }Pesos;
 
+typedef struct dados{
+    int idDoc;
+    int qtd;
+    struct dados *prox;
+}Dados;
 
 typedef struct celula{
     char *string;
-    // Cada posição i do vetor qtde armazena a quantidade de vezes que a string aparece
-    // no documento i
-    int *qtde;
+    Dados *dados;
     struct celula *prox;
 }Celula;
 
@@ -38,7 +41,4 @@ void FazListaVazia(Lista *lista);
 void Inserir(TabelaHash *tabelaHash, char *string, int idDoc);
 void IInseri(Lista *lista, char *string, int idDoc, int N);
 int HashFunction(Pesos pesos, char *string, int M);
-void Imprimir(TabelaHash *tabelaHash);
-void IImprimir(Lista *lista, int N);
-//void set_string(Dados *dados, char *string);
-//void set_idDoc(Dados *dados, int idDoc);
+int tamanhoTabelaHash(int N);
