@@ -13,7 +13,7 @@ typedef struct{
 
 typedef struct dados{
     int idDoc;
-    int qtd;
+    int qtde;
     struct dados *prox;
 }Dados;
 
@@ -24,7 +24,7 @@ typedef struct celula{
 }Celula;
 
 typedef struct{
-    Celula *primeira; // Primeira posição da lista linear encadiada
+    Celula *inicio; // Primeira posição da lista linear encadiada
     Celula *ultima;   // Ultima posição da lista linear encadeada
 }Lista;
 
@@ -35,6 +35,12 @@ typedef struct{
     int M;
 }TabelaHash;
 
+typedef struct lista_aux{
+    Celula *celula;
+    struct lista_aux *prox;
+}ListaAux;
+
+
 void GerarPesos(Pesos *pesos);
 void Inicializa(TabelaHash *tabelaHash, int M, int N);
 void FazListaVazia(Lista *lista);
@@ -42,3 +48,6 @@ void Inserir(TabelaHash *tabelaHash, char *string, int idDoc);
 void IInseri(Lista *lista, char *string, int idDoc, int N);
 int HashFunction(Pesos pesos, char *string, int M);
 int tamanhoTabelaHash(int N);
+void ImprimirIndiceInvertidoHash(TabelaHash *tabelaHash);
+void criaListaAuxOrdenada(ListaAux *inicio, Lista *lista);
+int comparaString(char *stringInserir, char *stringInserida);
