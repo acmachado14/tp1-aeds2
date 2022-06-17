@@ -14,8 +14,10 @@ void GerarPesos(Pesos *pesos){
     }
 }
 
-void Inicializa(TabelaHash *tabelaHash, int M, int N){
+void Inicializa(TabelaHash *tabelaHash, int N){
     int i;
+    int M;
+    M = tamanhoTabelaHash(N);
     GerarPesos(&tabelaHash->pesos);
     tabelaHash->N = N;
     tabelaHash->M = M;
@@ -43,15 +45,15 @@ int HashFunction(Pesos pesos, char *string, int M){
 void Inserir(TabelaHash *tabelaHash, char *string, int idDoc){
     int hashCode;
     int N, M;
-    N = tabelaHash->N;
     M = tabelaHash->M;
     hashCode = HashFunction(tabelaHash->pesos, string, M);
-    IInseri(&tabelaHash->tabela_hash[hashCode], string, idDoc, N);
+    IInseri(&tabelaHash->tabela_hash[hashCode], string, idDoc);
 }
 
-void IInseri(Lista *lista, char *string, int idDoc, int N){
-    Celula *celula;
-    Dados *dadosAux;
+void IInseri(Lista *lista, char *string, int idDoc){
+    ApontadorDados dadosAux;
+    ApontadorCelula celula;
+
     celula = lista->inicio;
 
     while (celula != NULL){
@@ -64,7 +66,7 @@ void IInseri(Lista *lista, char *string, int idDoc, int N){
                 }
                 dadosAux = dadosAux->prox;
             }
-            dadosAux = (Dados*)malloc(sizeof(Dados));
+            dadosAux = (ApontadorDados)malloc(sizeof(Dados));
             dadosAux->idDoc = idDoc;
             dadosAux->qtde = 1;
             dadosAux->prox = NULL;
@@ -73,25 +75,29 @@ void IInseri(Lista *lista, char *string, int idDoc, int N){
         celula = celula->prox;
     }
     
+
     if(lista->ultima == NULL){
-        lista->ultima = (Celula*)malloc(sizeof(Celula));
+        lista->ultima = (ApontadorCelula)malloc(sizeof(Celula));
         lista->inicio = lista->ultima;
     }
     else{
-        lista->ultima->prox = (Celula*)malloc(sizeof(Celula));
+        lista->ultima->prox = (ApontadorCelula)malloc(sizeof(Celula));
         lista->ultima = lista->ultima->prox;
     }
+    lista->ultima->prox = NULL;
+    lista->ultima->string = (char*)malloc(strlen(string) * sizeof(char));
     strcpy(lista->ultima->string, string);
-    lista->ultima->dados = (Dados*)malloc(sizeof(Dados));
+    
+    lista->ultima->dados = (ApontadorDados)malloc(sizeof(Dados));
     lista->ultima->dados->idDoc = idDoc;
     lista->ultima->dados->qtde = 1;
-    lista->ultima->prox = NULL;
     lista->ultima->dados->prox = NULL;
+    
 }
 
+// A função tamanhoTabelaHash retorna o numero primo mais proximo da
+// divisão da estimativa de chaves pelo fator de carga
 int tamanhoTabelaHash(int N){
-    // A função tamanhoTabelaHash retorna o numero primo mais proximo da
-    // divisão da estimativa de chaves pelo fator de carga
     int m, a;        // a representa o fator de carga
     int totalChaves; // numero aproximado de palavras na tabela hash
     int i, j, soma;
@@ -204,26 +210,7 @@ void criaListaAuxOrdenada(ListaAux *inicio, Lista *lista){
 }
 
 int comparaString(char *stringInserir, char *stringInserida){
-    int i, indice, menor;
-    int tamanhoString1, tamanhoString2;
-    tamanhoString1 = strlen(stringInserir);
-    tamanhoString2 = strlen(stringInserida);
-    if(tamanhoString1 <= tamanhoString2){
-        menor = tamanhoString1;
-    }
-    else{
-        menor = tamanhoString2;
-    }
-    for(i = 0; i < menor; i++){
-        indice = strcmp(stringInserir[i], stringInserida[i]);
-        if(indice != 0){
-            return indice;
-        }
-    }
-    if(tamanhoString1 < tamanhoString2){
-        return -1;
-    }
-    else{
-        return 1;
-    }
+    int indice;
+    indice = strcmp(stringInserir, stringInserida);
+    return indice;
 }

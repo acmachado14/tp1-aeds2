@@ -11,21 +11,23 @@ typedef struct{
     int *pesos;
 }Pesos;
 
+typedef struct dados* ApontadorDados;
 typedef struct dados{
     int idDoc;
     int qtde;
-    struct dados *prox;
+    ApontadorDados prox;
 }Dados;
 
+typedef struct celula* ApontadorCelula;
 typedef struct celula{
     char *string;
-    Dados *dados;
-    struct celula *prox;
+    ApontadorDados dados;
+    ApontadorCelula prox;
 }Celula;
 
 typedef struct{
-    Celula *inicio; // Primeira posição da lista linear encadiada
-    Celula *ultima;   // Ultima posição da lista linear encadeada
+    ApontadorCelula inicio; // Primeira posição da lista linear encadiada
+    ApontadorCelula ultima;   // Ultima posição da lista linear encadeada
 }Lista;
 
 typedef struct{
@@ -42,10 +44,10 @@ typedef struct lista_aux{
 
 
 void GerarPesos(Pesos *pesos);
-void Inicializa(TabelaHash *tabelaHash, int M, int N);
+void Inicializa(TabelaHash *tabelaHash, int N);
 void FazListaVazia(Lista *lista);
 void Inserir(TabelaHash *tabelaHash, char *string, int idDoc);
-void IInseri(Lista *lista, char *string, int idDoc, int N);
+void IInseri(Lista *lista, char *string, int idDoc);
 int HashFunction(Pesos pesos, char *string, int M);
 int tamanhoTabelaHash(int N);
 void ImprimirIndiceInvertidoHash(TabelaHash *tabelaHash);
