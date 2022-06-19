@@ -6,6 +6,7 @@
 #include <stdlib.h>
 #include <string.h>
 #include "tree/patricia.h"
+#include "hash/tabelaHash.h"
 
 typedef char *String;
 
