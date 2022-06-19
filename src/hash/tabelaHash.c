@@ -64,18 +64,22 @@ void IInseri(Lista *lista, char *string, int idDoc){
                     dadosAux->qtde += 1;
                     return;
                 }
+                
+                else{
+                    if(dadosAux->prox == NULL){
+                        dadosAux->prox = (ApontadorDados)malloc(sizeof(Dados));
+                        dadosAux = dadosAux->prox;
+                        dadosAux->idDoc = idDoc;
+                        dadosAux->qtde = 1;
+                        dadosAux->prox = NULL;
+                        return;
+                    }
+                }
                 dadosAux = dadosAux->prox;
             }
-            dadosAux = (ApontadorDados)malloc(sizeof(Dados));
-            dadosAux->idDoc = idDoc;
-            dadosAux->qtde = 1;
-            dadosAux->prox = NULL;
-            return;
         }
         celula = celula->prox;
     }
-    
-
     if(lista->ultima == NULL){
         lista->ultima = (ApontadorCelula)malloc(sizeof(Celula));
         lista->inicio = lista->ultima;
@@ -142,16 +146,15 @@ int tamanhoTabelaHash(int N){
 void ImprimirIndiceInvertidoHash(TabelaHash *tabelaHash){
     ListaAux *inicio;
     ListaAux *aux;
-    //Celula *celulaAux;
-    Dados *dados;
+    ApontadorDados dados;
     inicio = NULL;
     int i, M;
     M = tabelaHash->M;
     for(i = 0; i < M; i++){
-        criaListaAuxOrdenada(inicio, &tabelaHash->tabela_hash[i]);
+        inicio = criaListaAuxOrdenada(inicio, &tabelaHash->tabela_hash[i]);
     }
     aux = inicio;
-    //celulaAux = aux->celula;
+
     while(aux != NULL){
         printf("%s  ", aux->celula->string);
         dados = aux->celula->dados;
@@ -164,49 +167,66 @@ void ImprimirIndiceInvertidoHash(TabelaHash *tabelaHash){
     }
 }
 
-void criaListaAuxOrdenada(ListaAux *inicio, Lista *lista){
+ApontadorListaAux criaListaAuxOrdenada(ListaAux *inicio, Lista *lista){
     int indice;
-    ListaAux *novo;
-    ListaAux *aux;
-    Celula *celulaAtual;
-
-    celulaAtual = lista->inicio;
-    if(inicio == NULL && celulaAtual != NULL){
-        novo = (ListaAux*)malloc(sizeof(ListaAux));
-        novo->celula = celulaAtual;
+    ApontadorListaAux novo;
+    ApontadorListaAux auxInicio;
+    ApontadorListaAux aux;
+    ApontadorCelula celula;
+    celula = lista->inicio;
+    int i = 0;
+    celula = lista->inicio;
+    auxInicio = inicio;
+    if(celula == NULL){
+        return auxInicio;
+    }
+    int p = 0;
+    if(inicio == NULL){
+        novo = (ApontadorListaAux)malloc(sizeof(ListaAux));
+        novo->celula = celula;
         novo->prox = NULL;
         inicio = novo;
-        celulaAtual = celulaAtual->prox;
-        free(novo);
+        auxInicio = novo;
+        novo = novo->prox;
+        celula = celula->prox;
+        p++;
     }
-    while(celulaAtual != NULL){
-        novo = (ListaAux*)malloc(sizeof(ListaAux));
-        novo->celula = celulaAtual;
-        aux = inicio;
-        indice = comparaString(celulaAtual->string, aux->celula->string);
+    auxInicio = inicio;
+
+    while(celula != NULL){
+        novo = (ApontadorListaAux)malloc(sizeof(ListaAux));
+        novo->celula = celula;
+        aux = auxInicio;
+        indice = comparaString(celula->string, auxInicio->celula->string);
         if(indice < 0){
-            novo->prox = aux;
-            inicio = novo;
+            novo->prox = auxInicio;
+            auxInicio = novo;
         }
+
         else{
+            int k = 0;
             while(aux != NULL){
                 if(aux->prox != NULL){
-                    indice = comparaString(celulaAtual->string, aux->prox->celula->string);
+                    indice = comparaString(celula->string, aux->prox->celula->string);
                     if(indice < 0){
                         novo->prox = aux->prox;
                         aux->prox = novo;
                         break;
                     }
                 }
+                else{
+                    novo->prox = NULL;
+                    aux->prox = novo;
+                    aux = aux->prox;
+                }
                 aux = aux->prox;
+                k++;
             }
-            novo->prox = NULL;
-            aux = novo;
         }
-        celulaAtual = celulaAtual->prox;
-        free(novo);
+        celula = celula->prox;
+        p++;
     }
-    
+    return auxInicio;
 }
 
 int comparaString(char *stringInserir, char *stringInserida){
