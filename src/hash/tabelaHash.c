@@ -55,7 +55,6 @@ void IInseri(Lista *lista, char *string, int idDoc){
     ApontadorCelula celula;
 
     celula = lista->inicio;
-
     while (celula != NULL){
         if(! strcmp(celula->string, string)){
             dadosAux = celula->dados;
@@ -143,94 +142,29 @@ int tamanhoTabelaHash(int N){
     }
 }
 
-void ImprimirIndiceInvertidoHash(TabelaHash *tabelaHash){
-    ListaAux *inicio;
-    ListaAux *aux;
-    ApontadorDados dados;
-    inicio = NULL;
-    int i, M;
-    M = tabelaHash->M;
-    for(i = 0; i < M; i++){
-        inicio = criaListaAuxOrdenada(inicio, &tabelaHash->tabela_hash[i]);
-    }
-    aux = inicio;
-
-    while(aux != NULL){
-        printf("%s  ", aux->celula->string);
-        dados = aux->celula->dados;
-        while(dados != NULL){
-            printf("<%d,%d> ", dados->qtde, dados->idDoc);
-            dados = dados->prox;
-        }
-        printf("\n");
-        aux = aux->prox;
-    }
-}
-
-ApontadorListaAux criaListaAuxOrdenada(ListaAux *inicio, Lista *lista){
-    int indice;
-    ApontadorListaAux novo;
-    ApontadorListaAux auxInicio;
-    ApontadorListaAux aux;
+void freeTabelaHash(TabelaHash *tabelaHash){
     ApontadorCelula celula;
-    celula = lista->inicio;
-    int i = 0;
-    celula = lista->inicio;
-    auxInicio = inicio;
-    if(celula == NULL){
-        return auxInicio;
-    }
-    int p = 0;
-    if(inicio == NULL){
-        novo = (ApontadorListaAux)malloc(sizeof(ListaAux));
-        novo->celula = celula;
-        novo->prox = NULL;
-        inicio = novo;
-        auxInicio = novo;
-        novo = novo->prox;
-        celula = celula->prox;
-        p++;
-    }
-    auxInicio = inicio;
-
-    while(celula != NULL){
-        novo = (ApontadorListaAux)malloc(sizeof(ListaAux));
-        novo->celula = celula;
-        aux = auxInicio;
-        indice = comparaString(celula->string, auxInicio->celula->string);
-        if(indice < 0){
-            novo->prox = auxInicio;
-            auxInicio = novo;
-        }
-
-        else{
-            int k = 0;
-            while(aux != NULL){
-                if(aux->prox != NULL){
-                    indice = comparaString(celula->string, aux->prox->celula->string);
-                    if(indice < 0){
-                        novo->prox = aux->prox;
-                        aux->prox = novo;
-                        break;
-                    }
-                }
-                else{
-                    novo->prox = NULL;
-                    aux->prox = novo;
-                    aux = aux->prox;
-                }
-                aux = aux->prox;
-                k++;
+    ApontadorDados dados;
+    ApontadorCelula celulaAux;
+    ApontadorDados dadosAux;
+    Lista * lista;
+    int M = tabelaHash->M;
+    int i;
+    for(i = 0; i < M; i++){
+        lista = &tabelaHash->tabela_hash[i];
+        celula = lista->inicio;
+        while(celula != NULL){
+            dados = celula->dados;
+            while(dados != NULL){
+                dadosAux = dados;
+                dados = dados->prox;
+                free(dadosAux);
             }
+            celulaAux = celula;
+            celula = celula->prox;
+            free(celulaAux->string);
+            free(celulaAux);
         }
-        celula = celula->prox;
-        p++;
     }
-    return auxInicio;
-}
-
-int comparaString(char *stringInserir, char *stringInserida){
-    int indice;
-    indice = strcmp(stringInserir, stringInserida);
-    return indice;
+    free(tabelaHash->tabela_hash);
 }
