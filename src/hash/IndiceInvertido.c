@@ -1,3 +1,7 @@
+//Angelo - 4695
+//Arthur - 4679
+//Iury - 4671
+
 #include "IndiceInvertido.h"
 
 

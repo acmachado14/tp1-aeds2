@@ -5,69 +5,130 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
+#include <stdbool.h>
 #include "tree/patricia.h"
 #include "hash/Relevancia.h"
 
-typedef char *String;
 
-void LerDoc(String teste,String vetores[5000],int *tam){
-    int i = 0;
-    int j = 0;
-    int numPalavras = 0;
-    //String palavras[5000];
-    char line[5000];
-    FILE *arquivo;
+int main(){
+    int escolha;
+    bool continuar, arquivoEntrada, construirIndice;
 
-    arquivo = fopen(teste, "r");
-    if (arquivo == NULL){
-        puts("y");
-        return;
-    }
-    
-    while(fgets(line, sizeof line, arquivo) != NULL)
-    {
-        //Adiciona cada palavra no vetor
-        vetores[i] = strdup(line);
+    continuar = true;
+    arquivoEntrada = false;
+    construirIndice = false;
 
-        i++;
-        (*tam)++;
+    char **arquivosTeste;
+    int *N;
+    while(continuar){
+        printf("------------------------------------------------------------------------------\n");
+        printf("Digite um dos numeros para escolher uma das opcoes:\n");
+        printf("1 - Para receber o arquivo de entrada: \n");
+        printf("2 - Para construir o indice invertido: \n");
+        printf("3 - Para imprimir o indice invertido construido pela Tabela Hash: \n");
+        printf("4 - Para imprimir o indice invertido construido pela Arvore Patricia:\n");
+        printf("5 - Para realizar buscas por textos pela Tabela Hash: \n");
+        printf("6 - Para realizar buscas por textos pela Arvore Patricia:\n");
+        printf("7 - Para finalizar o programa: \n");
+        printf("Digite um numero: ");
+        scanf("%d", &escolha);
+        clearStdin();
+        printf("\n");
+        
+        switch (escolha){
+            case 1:{
+                // chama aqui a função para ler o arquivo de entrada, e os arquivos de teste
+                arquivoEntrada = true;
+                break;
+            }
 
-        //Conta a quantidade de palavras
-        numPalavras++;
-    }
+            case 2:{
+                if(arquivoEntrada){
+                    // chama aqui a função Para construir o indice invertido:
+                    construirIndice = true;
+                }
+                else{
+                    printf("Precisa escolher a opcao de numero 1 primeiro para selecionar esta opcao.\n");
+                }
+                break;
+            }
 
+            case 3:{
+                if(arquivoEntrada && construirIndice){
+                    // chama aqui a função Para imprimir o indice invertido construido pela Tabela Hash:
+                }
+                else{
+                    if(!arquivoEntrada){
+                        printf("Precisa escolher a opcao de numero 1 primeiro, depois a opcao de numero 2 para selecionar esta opcao.\n");
+                    }
+                    else if(arquivoEntrada && !construirIndice){
+                        printf("Precisa escolher a opcao de numero 2 primeiro para selecionar esta opcao.\n");
+                    } 
+                }
+                break;
+            }
 
+            case 4:{
+                if(arquivoEntrada && construirIndice){
+                    // chama aqui a função Para imprimir o indice invertido construido pela Arvore Patricia:
+                }
+                else{
+                    if(!arquivoEntrada){
+                        printf("Precisa escolher a opcao de numero 1 primeiro, depois a opcao de numero 2 para selecionar esta opcao.\n");
+                    }
+                    else if(arquivoEntrada && !construirIndice){
+                        printf("Precisa escolher a opcao de numero 2 primeiro para selecionar esta opcao.\n");
+                    }
+                }
+                break;
+            }
 
-    printf("\n\n");
+            case 5:{
+                if(arquivoEntrada && construirIndice){
+                    // chama aqui a função Para realizar buscas por textos pela Tabela Hash:
+                }
+                else{
+                    if(!arquivoEntrada){
+                        printf("Precisa escolher a opcao de numero 1 primeiro, depois a opcao de numero 2 para selecionar esta opcao.\n");
+                    }
+                    else if(arquivoEntrada && !construirIndice){
+                        printf("Precisa escolher a opcao de numero 2 primeiro para selecionar esta opcao.\n");
+                    }
+                    
+                }
+                break;
+            }
 
-    fclose(arquivo);
-}
+            case 6:{
+                if(arquivoEntrada && construirIndice){
+                    // chama aqui a função Para realizar buscas por textos pela Arvore Patricia:
+                }
+                else{
+                    if(!arquivoEntrada){
+                        printf("Precisa escolher a opcao de numero 1 primeiro, depois a opcao de numero 2 para selecionar esta opcao.\n");
+                    }
+                    else if(arquivoEntrada && !construirIndice){
+                        printf("Precisa escolher a opcao de numero 2 primeiro para selecionar esta opcao.\n");
+                    }
+                    
+                }
+                break;
+            }
 
-int main(int argc, char** argv) {
-    //inicio
+            case 7:{
+                continuar = false;
+                printf("Saindo do programa...\n");
+                break;
+            }
 
-    int i;
-    char teste[46];
-    String vetores[5000];
-    //scanf("%s",&teste);
-    String str1 = "../tests/";
-    String str2 = ".txt";
-    char buffer[50];
-    char buffer2[50];
+            default:{
+                printf("Digite um numero valido\n");
+                break;
+            }
 
-    printf("Digite o nome do teste a ser executado na pasta de testes: \n");
-    scanf("%s", &teste);
+        }
+        printf("------------------------------------------------------------------------------\n\n");
 
-    strcat(strcpy(buffer, str1), teste);
-
-    strcpy(buffer2, buffer);
-
-    strcat(strcpy(buffer, buffer), str2);
-
-    int tam = 0;
-    LerDoc(buffer,vetores,&tam);
-    for (i=0;i<tam;i++){
-        printf("%s",vetores[i]);
     }
     return 0;
 }
