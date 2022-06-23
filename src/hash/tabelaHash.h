@@ -37,13 +37,6 @@ typedef struct{
     int M;
 }TabelaHash;
 
-typedef struct lista_aux* ApontadorListaAux;
-typedef struct lista_aux{
-    Celula *celula;
-    struct lista_aux *prox;
-}ListaAux;
-
-
 
 void GerarPesos(Pesos *pesos);
 void Inicializa(TabelaHash *tabelaHash, int N);
@@ -52,6 +45,4 @@ void Inserir(TabelaHash *tabelaHash, char *string, int idDoc);
 void IInseri(Lista *lista, char *string, int idDoc);
 int HashFunction(Pesos pesos, char *string, int M);
 int tamanhoTabelaHash(int N);
-void ImprimirIndiceInvertidoHash(TabelaHash *tabelaHash);
-ApontadorListaAux criaListaAuxOrdenada(ListaAux *inicio, Lista *lista);
-int comparaString(char *stringInserir, char *stringInserida);
+void freeTabelaHash(TabelaHash *tabelaHash);
