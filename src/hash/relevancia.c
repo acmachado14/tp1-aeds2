@@ -2,7 +2,7 @@
 //Arthur - 4679
 //Iury - 4671
 
-#include "Relevancia.h"
+#include "relevancia.h"
 
 void buscaPorTexto(TabelaHash *tabelaHash){
     int q = 0; // q representa a quantidade de termos 

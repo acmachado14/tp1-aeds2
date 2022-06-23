@@ -3,7 +3,7 @@
 //Iury - 4671
 
 #include <math.h>
-#include "IndiceInvertido.h"
+#include "indiceInvertido.h"
 
 typedef struct noRelevancia{
     float r;

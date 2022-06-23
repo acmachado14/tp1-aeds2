@@ -2,7 +2,7 @@
 //Arthur - 4679
 //Iury - 4671
 
-#include "IndiceInvertido.h"
+#include "indiceInvertido.h"
 
 
 void ImprimirIndiceInvertidoHash(TabelaHash *tabelaHash){

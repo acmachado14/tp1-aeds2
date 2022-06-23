@@ -7,10 +7,37 @@
 #include <string.h>
 #include <stdbool.h>
 #include "tree/patricia.h"
-#include "hash/Relevancia.h"
+#include "hash/relevancia.h"
+
+typedef char *String;
+
+void LerDoc(String teste,String vetores[5000],int *tam){
+    int i = 0;
+    int numPalavras = 0;
+    char line[5000];
+    FILE *arquivo;
+
+    arquivo = fopen(teste, "r");
+    if (arquivo == NULL){
+        puts("\nArquivo nao Encontrado\n");
+        return;
+    }
+    
+    while(fgets(line,sizeof line, arquivo) != NULL){
+        vetores[i] = strdup(line);
+    
+        i++;
+        (*tam)++;
+        numPalavras++;
+    }
+
+    fclose(arquivo);
+}
 
 
 int main(){
+    TArvore raiz = NULL;
+
     int escolha;
     bool continuar, arquivoEntrada, construirIndice;
 
@@ -32,13 +59,43 @@ int main(){
         printf("7 - Para finalizar o programa: \n");
         printf("Digite um numero: ");
         scanf("%d", &escolha);
-        clearStdin();
+        //clearStdin();
         printf("\n");
         
         switch (escolha){
             case 1:{
                 // chama aqui a função para ler o arquivo de entrada, e os arquivos de teste
                 arquivoEntrada = true;
+
+                int i;
+                char teste[46];
+                String vetores[5000];
+                String str1 = "tests/";
+                String str2 = ".txt";
+                char buffer[50];
+                char buffer2[50];
+
+                printf("Digite o nome do teste a ser executado na pasta de testes: \n");
+                scanf("%s", &teste);
+
+                strcat(strcpy(buffer, str1), teste);
+
+                strcpy(buffer2, buffer);
+
+                strcat(strcpy(buffer, buffer), str2);
+                int tam = 0;
+                String *palavra;
+
+                LerDoc(buffer,vetores,&tam);
+                for (i=0;i<tam;i++){
+                    palavra = (String)malloc(sizeof(char)*30);
+
+                    palavra = vetores[i];
+                    //printf("%s", palavra);
+                    raiz = Insere(palavra, &raiz);
+                }
+                Ordem(raiz);
+
                 break;
             }
 
