@@ -105,7 +105,7 @@ int tamanhoTabelaHash(int N){
     int totalChaves; // numero aproximado de palavras na tabela hash
     int i, j, soma;
     int primoAntecessor, primoSucessor;
-    totalChaves = N * 50;
+    totalChaves = N * 25;
     a = 4;
     m = totalChaves / a;
     for(i = m ; i >= 0; i--){
