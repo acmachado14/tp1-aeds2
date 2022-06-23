@@ -6,10 +6,8 @@
 #include <stdlib.h>
 #include <string.h>
 #include <stdbool.h>
-#include "tree/patricia.h"
 #include "arquivo/manipulacaoArquivo.h"
 
-//gcc src/main.c src/tree/patricia.c src/hash/tabelaHash.c -o exefile
 
 int main(){
     TabelaHash tabelaHash;
@@ -54,7 +52,6 @@ int main(){
 
             case 2:{
                 if(arquivoEntrada){
-                    // chama aqui a função Para construir o indice invertido:
                     leituraTextos(&tabelaHash, arquivosTeste, N);
                     construirIndice = true;
                 }

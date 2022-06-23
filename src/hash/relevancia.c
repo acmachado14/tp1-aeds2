@@ -31,10 +31,11 @@ void buscaPorTexto(TabelaHash *tabelaHash){
     float r;
     ArvoreRelevancia raiz;
     inicializaArvoreRelevancia(&raiz.no);
-    for(i = 0; i < 2; i++){
+    for(i = 0; i < N; i++){
         r = relevanciaDocumento(tabelaHash, termos, i, q);
         insercaoR(&raiz.no, r, i);
     }
+    printf("\nRelevancia dos textos:\n\n");
     percursoRelevancia(&raiz.no);
     freeArvoreRelevancia(&raiz.no);
 }
