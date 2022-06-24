@@ -11,7 +11,7 @@
 
 int main(){
     TabelaHash tabelaHash;
-    TArvore raiz = NULL;
+    TipoPatNo *pat = NULL;
     int escolha;
     bool continuar, arquivoEntrada, construirIndiceTabela, construirIndicePatricia;
     bool erroAbrirArquivo;
@@ -39,12 +39,12 @@ int main(){
         scanf("%d", &escolha);
         clearStdin();
         printf("\n");
-        
+
         switch (escolha){
             case 1:{
                 if(arquivoEntrada){
                     printf("O arquivo de entrada ja foi recebido.\n");
-                    printf("Deseja receber outro arquivo de entrada. Voce tera que reconstruir os" 
+                    printf("Deseja receber outro arquivo de entrada. Voce tera que reconstruir os"
                           " incices invertidos, casso tenha construidos.\n");
                     int opcao;
                     printf("1 - Sim\n2 - Nao:\nDigite: ");
@@ -98,7 +98,7 @@ int main(){
                 }
                 if(arquivoEntrada){
                     // deve passar os parametros necessarisos para inserir na arvore patricia
-                    erroAbrirArquivo =  construirIndiceInvertidoPatricia(&raiz, arquivosTeste, N);
+                    erroAbrirArquivo =  construirIndiceInvertidoPatricia(&pat, arquivosTeste, N);
                     if(erroAbrirArquivo){
                         printf("Voce sera redirecionado ao menu.\n");
                         break;
@@ -122,7 +122,7 @@ int main(){
                     }
                     else if(arquivoEntrada && !construirIndiceTabela){
                         printf("Precisa escolher a opcao de numero 2 primeiro para selecionar esta opcao.\n");
-                    } 
+                    }
                 }
                 break;
             }
@@ -153,7 +153,7 @@ int main(){
                     else if(arquivoEntrada && !construirIndiceTabela){
                         printf("Precisa escolher a opcao de numero 2 primeiro para selecionar esta opcao.\n");
                     }
-                    
+
                 }
                 break;
             }
@@ -169,7 +169,7 @@ int main(){
                     else if(arquivoEntrada && !construirIndicePatricia){
                         printf("Precisa escolher a opcao de numero 3 primeiro para selecionar esta opcao.\n");
                     }
-                    
+
                 }
                 break;
             }

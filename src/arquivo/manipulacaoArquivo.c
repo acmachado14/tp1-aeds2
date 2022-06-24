@@ -67,16 +67,17 @@ bool construirIndiceInvertidoHash(TabelaHash *tabelaHash, char **arquivosTeste, 
     return false;
 }
 
-bool construirIndiceInvertidoPatricia(TArvore *raiz, char **arquivosTeste,  int N){
+bool construirIndiceInvertidoPatricia(TipoPatNo **pat, char **arquivosTeste,  int N){
     char *str1 = "../TP1-AEDS2/tests/";
     char buffer[50];
     char buffer1[50];
     char buffer2[50];
     int i, j;
-    clock_t clockArvore, clockAux1;
-    clockArvore = clock();
-    // Chama aqui alguma função para inicializar a arvore, se precisar
-    clockArvore = clock() - clockArvore;
+    clock_t clockInicio, clockFim;
+    clockInicio = clock();
+
+    int Comparacoes = 0;
+    int Memoria = 0;
 
     for(i = 0; i < N; i++){
         strcat(strcpy(buffer, str1), arquivosTeste[i]);
@@ -94,16 +95,11 @@ bool construirIndiceInvertidoPatricia(TArvore *raiz, char **arquivosTeste,  int 
                 j++;
             }
             buffer2[j] = '\0';
-            clockAux1 = clock();
-
-            // Chama aqui a função de inserir na arvore patricia, passando a string que esta em buffer2
-            // e o idDoc como sendo o indice i
-        
-            clockAux1 = clock() - clockAux1;
-            clockArvore = clockAux1 + clockArvore;
+            (*pat) = Insere(buffer2, pat, &Comparacoes, &Memoria);
         }
         fclose(file);
     }
-    printf("Tempo de construcao do indice invertido pela Arvore Patricia: %f segundos\n", ((float)(clockArvore))/(float)CLOCKS_PER_SEC);
+    printf("Numero de Comparacoes: %d\nTempo de execucao: %lf ms\nMemoria alocada: %d bytes\n\n", Comparacoes,
+    ((double)(clockFim - clockInicio) * 1000)/(CLOCKS_PER_SEC), Memoria);
     return false;
 }

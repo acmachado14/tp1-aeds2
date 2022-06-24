@@ -1,165 +1,164 @@
-//Angelo - 4695
-//Arthur - 4679
-//Iury - 4671
-
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
 #include "patricia.h"
 
-char Caractere(short i, String k)
-{
-    /* Retorna o i-esimo Caractere da chave k a partir da esquerda */
-    if (i > strlen(k)){
-        return k[i];
-    }
-    return NULL;
-}
-boolean MenorIgual(char a, char b)
-{
-    if(a == NULL)
-       return NULL;
-    if( b == NULL)
-       return NULL;
-    return a <= b ? TRUE:FALSE;
-}
-boolean EExterno(TArvore p)
-{
-    /* Verifica se p^ e nó externo */
-    return (p->nt == Externo)?TRUE:FALSE;
-}
+char Bit(unsigned char i, char k[]){  //Essa funcao retorna o caractere na posicao i de um vetor k[]
+    return (k[i]);
+};
 
-TArvore CriaNoInt(short i, TArvore *Esq,  TArvore *Dir, char Caractere)
-{
-    TArvore p;
-    p = (TArvore)malloc(sizeof(TipoPatNo));
-    p->nt = Interno;
-    p->NO.NInterno.Esq = *Esq;
-    p->NO.NInterno.Dir = *Dir;
-    p->NO.NInterno.Index = i;
-    p->NO.NInterno.Caractere = Caractere;
-    return p;
-}
+short NoEExterno(TipoPatNo *no){      //Essa funcao verifica se o no e externo
+    return (no->notipo == externo);
+};
 
-TArvore CriaNoExt(String k)
-{
-    TArvore p;
-    p = (TArvore)malloc(sizeof(TipoPatNo));
-    p->nt = Externo;
-    p->NO.Chave = k;
-    return p;
-}
+TipoPatNo *CriaNoInt(int i, char c, TipoPatNo **esq, TipoPatNo **dir, int *Memoria){ //cria no interno,
+    TipoPatNo *no;
+    no = malloc(sizeof(TipoPatNo));
+    (*Memoria) += sizeof(*no); //contador da quantidade de memoria utilizada
+    no->notipo = interno;
+    no->PatNo.NoInterno.esquerda = *esq;
+    no->PatNo.NoInterno.direita = *dir;
+    no->PatNo.NoInterno.indice = i;
+    no->PatNo.NoInterno.compara = c;
+    return no;
+};
 
-boolean Pesquisa(String k, TArvore t)
-{
-    if (EExterno(t))
-    {
-        if (strncmp(k,t->NO.Chave,strlen(k)) == 0){
-          return TRUE;
-        }
-       else{
-          return FALSE;
-       }
-    }
-    if (MenorIgual(Caractere(t->NO.NInterno.Index, k),t->NO.NInterno.Caractere))
-        return Pesquisa(k, t->NO.NInterno.Esq);
-    else return Pesquisa(k, t->NO.NInterno.Dir);
+TipoPatNo *CriaNoExt(char *ch, int *Memoria){  //cria n� externo
+    TipoPatNo *no;
+    no = malloc(sizeof(TipoPatNo));
+    (*Memoria) += sizeof(*no);
+    no->notipo = externo;
+    no->PatNo.chave = malloc(30*sizeof(char));
+    (*Memoria) += sizeof(*no);
+    strcpy(no->PatNo.chave, ch);
+    //no->conta = 1;
+    return no;
+};
 
-}
-
-void printNo(TArvore no)
-{
-    if(no == NULL)
-        printf("No Nulo\n");
-    else if(no->nt == Externo){
-        printf("No{\n Tipo: Externo\n Chave:%s\n};\n",no->NO.Chave);
-    }
-    /*else{
-        printf("No{\n Tipo: Interno\n Indice: %d\n Caractere: %c\n};\n",no->NO.NInterno.Index,no->NO.NInterno.Caractere);
-    }*/
-}
-
-TArvore InsereEntre(String k, TArvore *t, short i)
-{
-    TArvore p;
-    char caractere;
-    if (EExterno(*t) || i < (*t)->NO.NInterno.Index)
-    {
-        /* cria um novo no externo */
-        if(EExterno(*t)){
-           caractere = Caractere(i,(*t)->NO.Chave);
+void BuscaPat(char k[], TipoPatNo *no, int *Comparacoes){ //fun��o de pesquisa
+    if (NoEExterno(no)){                                                                            //primeiramente verifica se o n� atual � Externo
+        (*Comparacoes)++;
+        if(strcmp(k,no->PatNo.chave) == 0){
+            (*Comparacoes)++;
+            printf("Elemento encontrado: %s\n", no->PatNo.chave);    //depois, compara a string sendo pesquisada com a chave do n� atual
         }
         else{
-          caractere = (*t)->NO.NInterno.Caractere;
+            (*Comparacoes)++;
+            printf("Elemento %s nao encontrado\n", k);
         }
-        p = CriaNoExt(k);
-        if (MenorIgual(Caractere(i, k),caractere))
-            return (CriaNoInt(i,&p,t,Caractere(i, k)));
-        else return (CriaNoInt(i,t,&p,caractere));
+        return;
     }
-    else
-    {
-        if (MenorIgual(Caractere((*t)->NO.NInterno.Index, k),(*t)->NO.NInterno.Caractere))
-            (*t)->NO.NInterno.Esq = InsereEntre(k,&(*t)->NO.NInterno.Esq,i);
-        else
-            (*t)->NO.NInterno.Dir = InsereEntre(k,&(*t)->NO.NInterno.Dir,i);
-        return (*t);
-    }
-}
-
-TArvore Insere(String k, TArvore *t)
-{
-    TArvore p;
-    int i;
-    //k = strlwr(k);
-    if (*t == NULL){
-        return (CriaNoExt(k));
+    if (Bit(no->PatNo.NoInterno.indice, k) < no->PatNo.NoInterno.compara){
+        (*Comparacoes)++;
+        BuscaPat(k, no->PatNo.NoInterno.esquerda, Comparacoes);  //se o n� n�o for externo, ele faz as compara��es para ver se ele deve chamar a fun��o recursivamente � esquerda ou � direita
     }
     else{
-        p = *t;
-        while (!EExterno(p))
-        {
-            if (MenorIgual(Caractere(p->NO.NInterno.Index,k),p->NO.NInterno.Caractere))
-                p = p->NO.NInterno.Esq;
-            else
-                p = p->NO.NInterno.Dir;
-        }
-        /* acha o primeiro Caractere diferente */
-        i = 0;
-        if(strlen(k)>strlen(p->NO.Chave)){
+        (*Comparacoes)++;
+        BuscaPat(k, no->PatNo.NoInterno.direita, Comparacoes);
+    }
+};
 
-            while ((i <= strlen(k)) && (Caractere(i, k) == Caractere(i, p->NO.Chave)))
-                i++;
-
-              if (i >= strlen(k)){
-                printf("Erro: chave ja esta na arvore: %s == %s\n",k,p->NO.Chave);
-                return (*t);
-              }
-              else
-                return (InsereEntre(k, t, i));
-        }
-        else{
-              while ((i <= strlen(p->NO.Chave)) && (Caractere(i, k) == Caractere(i, p->NO.Chave)))
-                i++;
-
-              if (i >= strlen(p->NO.Chave)){
-                printf("Erro: chave ja esta na arvore: %s == %s\n",k,p->NO.Chave);
-                return (*t);
-              }
-            else
-                return (InsereEntre(k, t, i));
+TipoPatNo *InsereEntre (char k[], char compara, TipoPatNo **no, int i, int *Comparacoes, int *Memoria){ //Essa � a fun��o de inser��o recursiva
+    TipoPatNo *Pno;
+    if (NoEExterno(*no)){
+        (*Comparacoes)++;
+        //puts("condicao 1");
+        Pno = CriaNoExt(k, Memoria);
+        if (Bit(i, k) > Bit (i, (*no)->PatNo.chave)){
+            (*Comparacoes)++;
+            return CriaNoInt(i, k[i], no, &Pno, Memoria);
+        }else{
+            (*Comparacoes)++;
+            return CriaNoInt(i, (*no)->PatNo.chave[i], &Pno, no, Memoria);
         }
     }
-}
 
-void Ordem(TArvore ap)
-{
+    else if (i == (*no)->PatNo.NoInterno.indice){
+        (*Comparacoes)++;
+        //puts("condicao 2");
+        Pno = CriaNoExt(k, Memoria);
+        if (Bit(i, k) > (*no)->PatNo.NoInterno.compara) {
+            (*Comparacoes)++;
+            return CriaNoInt(i, k[i], no, &Pno, Memoria);
+        }else{
+            (*Comparacoes)++;
+            (*no)->PatNo.NoInterno.esquerda = InsereEntre(k, compara, &(*no)->PatNo.NoInterno.esquerda, i, Comparacoes, Memoria);
+            return (*no);
+        }
+    }
 
-    if(ap == NULL)
-        return;
-    if(!EExterno(ap))
-        Ordem(ap->NO.NInterno.Esq);
-    printNo(ap);
-    if(!EExterno(ap))
-        Ordem(ap->NO.NInterno.Dir);
+    else if (i < (*no)->PatNo.NoInterno.indice){
+        (*Comparacoes)++;
+        //puts("condicao 3");
+        Pno = CriaNoExt(k, Memoria);
+        if (Bit(i, k) > compara){
+            (*Comparacoes)++;
+            return CriaNoInt(i, k[i], no, &Pno, Memoria);
+        }else{
+            (*Comparacoes)++;
+            return CriaNoInt(i, compara, &Pno, no, Memoria);
+        }
+    }
+
+    else {
+        //puts("condicao 4");
+        (*Comparacoes)++;
+        if (Bit((*no)->PatNo.NoInterno.indice, k) == (*no)->PatNo.NoInterno.compara){
+            (*Comparacoes)++;
+            (*no)->PatNo.NoInterno.direita = InsereEntre(k, compara, &(*no)->PatNo.NoInterno.direita, i, Comparacoes, Memoria);
+        }else{
+            (*Comparacoes)++;
+            (*no)->PatNo.NoInterno.esquerda = InsereEntre(k, compara, &(*no)->PatNo.NoInterno.esquerda, i, Comparacoes, Memoria);
+        }
+        return (*no);
+    }
+};
+
+TipoPatNo *Insere(char k[], TipoPatNo **no, int *Comparacoes, int *Memoria){ //Essa e a funcao de insercao principal
+    TipoPatNo *Pno;
+    int i;
+    if (*no == NULL){
+        (*Comparacoes)++;
+        return CriaNoExt(k, Memoria);    //Se a arvore ainda estiver vazia, a funcao cria um no externo com a chave k e retorna esse no
+    }else{
+        Pno = *no;
+        (*Comparacoes)++;
+        while (!NoEExterno(Pno)){                                                                                        //caso contrario, ele ira percorrer a arvore ate achar um no externo
+            if (Bit(Pno->PatNo.NoInterno.indice, k) == Pno->PatNo.NoInterno.compara){
+                (*Comparacoes)++;
+                Pno = Pno->PatNo.NoInterno.direita; //se o caracter na posicao "indice" da string "k" for igual ao char "compara", a funcao precorre a arvore pela direita
+            }else{
+                (*Comparacoes)++;
+                Pno = Pno->PatNo.NoInterno.esquerda;
+            } //caso contrario percorre a arvore pela esquerda
+        }
+        i=0;
+        while (Bit((int)i, k) == Bit((int)i, Pno->PatNo.chave) && i < strlen(k)) i++;  //essa linha compara caractere por caractere de "k" e "chave" e continua incrementando o "i" ate encontrar um caractere diferente
+        if (strcmp(k, Pno->PatNo.chave) == 0){
+            (*Comparacoes)++;
+            //essa linha compara k e chave para ver se sao iguais, e se forem, retorna uma mensagem de erro
+            printf("A palavra %s ja esta na arvore.\n\n", k);
+            //p->conta ++;
+            return (*no);
+        }else{ (*Comparacoes)++;
+        return (InsereEntre(k, Pno->PatNo.chave[i], no, i, Comparacoes, Memoria));}                     //se for confirmado que as strings sao diferentes, ele chama o InsereEntre passando a chave "k", o indice "i" encontrado acima,
+    }                                                                                  //o i-esimo caractere da chave do no externo encontrado acima, e o no original que foi passado como parametro da funcao Insere
+};
+
+
+//a funcao abaixo conta quantas palavras foram inseridas
+int ContaPalavras(TipoPatNo *no){         //bom, a logica e bem simples, se o no for externo ele retorna 1
+    if (no->notipo == externo) return 1;  //se for interno, ele chama recursivamente pra direita e a esquerda e retorna a soma de ambos
+    else return ContaPalavras(no->PatNo.NoInterno.esquerda) + ContaPalavras(no->PatNo.NoInterno.direita);
+};
+//OBS: a funcao nao trata nos nulos porque os nos nunca vao ser nulos. Um no interno sempre tera dois filhos nao-nulos, e um no externo nao tem filhos
+
+
+//a funcao abaixo imprime cada palavra inserida na PATRICIA, em ordem alfabetica
+void ImprimePalavras(TipoPatNo *no){
+    if (no->notipo == externo) printf("%s\n",no->PatNo.chave); //se o no for externo, imprime a chave dele
+    else{                                                     //e se nao, chama recursivamente para os filhos a esquerda e a direita
+        ImprimePalavras(no->PatNo.NoInterno.esquerda);
+        ImprimePalavras(no->PatNo.NoInterno.direita);
+    }
 }
