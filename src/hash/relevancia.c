@@ -91,14 +91,15 @@ float relevanciaDocumento(TabelaHash *tabelaHash, char **termos, int idDoc, int 
             }
             if(celula == NULL){
                 printf("O termo %s nao esta na tabela hash.\n", termos[i]);
+                continue;
             }
         }
         else{
             printf("O termo %s nao esta na tabela hash.\n", termos[i]);
             continue;
         }
-        w = f * log2(2) / dj;
-        r += w; 
+        w = f * log2(N) / dj;
+        r += w;
     }
     r = r / ni;
     return r;
@@ -143,6 +144,7 @@ void freeArvoreRelevancia(NoRelevancia **no){
     }
 }
 
+// Funcão de limpar buffer
 void clearStdin(void){
     int c = getchar();
     while( c != '\n' && c != EOF){

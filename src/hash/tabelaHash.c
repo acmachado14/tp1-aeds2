@@ -98,7 +98,7 @@ void IInseri(Lista *lista, char *string, int idDoc){
     
 }
 
-// A função tamanhoTabelaHash retorna o numero primo mais proximo da
+// A função tamanhoTabelaHash retorna o primeiro primo maior  da
 // divisão da estimativa de chaves pelo fator de carga
 int tamanhoTabelaHash(int N){
     int m, a;        // a representa o fator de carga
@@ -108,19 +108,6 @@ int tamanhoTabelaHash(int N){
     totalChaves = N * 25;
     a = 4;
     m = totalChaves / a;
-    for(i = m ; i >= 0; i--){
-        soma = 0;
-        for (j = 2; j <= i / 2; j++) {
-            if (i % j == 0) {
-                soma++;
-                break;
-            }
-        }
-        if(soma == 0){
-            primoAntecessor = i;
-            break;
-        }
-    }
     for(i = m ; i <= m + 1000; i++){
         soma = 0;
         for (j = 2; j <= i / 2; j++) {
@@ -134,12 +121,7 @@ int tamanhoTabelaHash(int N){
             break;
         }
     }
-    if(m - primoAntecessor < primoSucessor - m){
-        return primoAntecessor;
-    }
-    else{
-        return primoSucessor;
-    }
+    return primoSucessor;
 }
 
 void freeTabelaHash(TabelaHash *tabelaHash){

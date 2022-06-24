@@ -4,4 +4,5 @@
 
 bool leituraArquivoEntrada(char **arquivosTeste, int *N);
 
-void leituraTextos(TabelaHash *tabelaHash, char **arquivosTeste,  int N);
+bool construirIndiceInvertidoHash(TabelaHash *tabelaHash, char **arquivosTeste,  int N);
+bool construirIndiceInvertidoPatricia(TArvore *raiz, char **arquivosTeste,  int N);

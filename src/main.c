@@ -13,26 +13,28 @@ int main(){
     TabelaHash tabelaHash;
     TArvore raiz = NULL;
     int escolha;
-    bool continuar, arquivoEntrada, construirIndice;
+    bool continuar, arquivoEntrada, construirIndiceTabela, construirIndicePatricia;
     bool erroAbrirArquivo;
 
     continuar = true;
     arquivoEntrada = false;
-    construirIndice = false;
+    construirIndiceTabela = false;
+    construirIndicePatricia = false;
+
     char *arquivosTeste[100];
     int N;
-    int i;
 
     while(continuar){
         printf("------------------------------------------------------------------------------\n");
         printf("Digite um dos numeros para escolher uma das opcoes:\n");
         printf("1 - Para receber o arquivo de entrada: \n");
-        printf("2 - Para construir o indice invertido: \n");
-        printf("3 - Para imprimir o indice invertido construido pela Tabela Hash: \n");
-        printf("4 - Para imprimir o indice invertido construido pela Arvore Patricia:\n");
-        printf("5 - Para realizar buscas por textos pela Tabela Hash: \n");
-        printf("6 - Para realizar buscas por textos pela Arvore Patricia:\n");
-        printf("7 - Para finalizar o programa: \n");
+        printf("2 - Para construir o indice invertido pela Tabela Hash: \n");
+        printf("3 - Para construir o indice invertido pela Arvore Patricia: \n");
+        printf("4 - Para imprimir o indice invertido construido pela Tabela Hash: \n");
+        printf("5 - Para imprimir o indice invertido construido pela Arvore Patricia:\n");
+        printf("6 - Para realizar buscas por textos pela Tabela Hash: \n");
+        printf("7 - Para realizar buscas por textos pela Arvore Patricia:\n");
+        printf("8 - Para finalizar o programa: \n\n");
         printf("Digite um numero: ");
         scanf("%d", &escolha);
         clearStdin();
@@ -40,20 +42,48 @@ int main(){
         
         switch (escolha){
             case 1:{
-                // chama aqui a função para ler o arquivo de entrada, e os arquivos de teste
+                if(arquivoEntrada){
+                    printf("O arquivo de entrada ja foi recebido.\n");
+                    printf("Deseja receber outro arquivo de entrada. Voce tera que reconstruir os" 
+                          " incices invertidos, casso tenha construidos.\n");
+                    int opcao;
+                    printf("1 - Sim\n2 - Nao:\nDigite: ");
+                    scanf("%d", &opcao);
+                    clearStdin();
+                    while(opcao < 1 || opcao > 2){
+                        printf("1 - Sim\n2 - Nao:\nDigite: ");
+                        scanf("%d", &opcao);
+                    }
+                    if(opcao == 2){
+                        break;
+                    }
+                    arquivoEntrada = false;
+                    construirIndiceTabela = false;
+                    construirIndicePatricia = false;
+
+                }
                 erroAbrirArquivo =  leituraArquivoEntrada(arquivosTeste, &N);
                 if(erroAbrirArquivo){
-                    system("pause");
-                    return 0;
+                    printf("Digite um nome de arquivo valido.\n");
+                    break;
                 }
                 arquivoEntrada = true;
                 break;
             }
 
             case 2:{
+                if(construirIndiceTabela){
+                    printf("O indice invertido da Tabela Hash ja foi construido.\n");
+                    printf("Escolha outra opcao\n");
+                }
                 if(arquivoEntrada){
-                    leituraTextos(&tabelaHash, arquivosTeste, N);
-                    construirIndice = true;
+                    erroAbrirArquivo =  construirIndiceInvertidoHash(&tabelaHash, arquivosTeste, N);
+                    if(erroAbrirArquivo){
+                        printf("Voce sera redirecionado ao menu.\n");
+                        break;
+                    }
+                    construirIndiceTabela = true;
+                    printf("Indice invertido criado para a Tabela Hash\n");
                 }
                 else{
                     printf("Precisa escolher a opcao de numero 1 primeiro para selecionar esta opcao.\n");
@@ -62,62 +92,65 @@ int main(){
             }
 
             case 3:{
-                if(arquivoEntrada && construirIndice){
-                    // chama aqui a função Para imprimir o indice invertido construido pela Tabela Hash:
+                if(construirIndicePatricia){
+                    printf("O indice invertido da Arvore Patricia ja foi construido.\n");
+                    printf("Escolha outra opcao\n");
+                }
+                if(arquivoEntrada){
+                    // deve passar os parametros necessarisos para inserir na arvore patricia
+                    erroAbrirArquivo =  construirIndiceInvertidoPatricia(&raiz, arquivosTeste, N);
+                    if(erroAbrirArquivo){
+                        printf("Voce sera redirecionado ao menu.\n");
+                        break;
+                    }
+                    construirIndicePatricia = true;
+                    printf("Indice invertido criado para a Arvore Patricia\n");
+                }
+                else{
+                    printf("Precisa escolher a opcao de numero 1 primeiro para selecionar esta opcao.\n");
+                }
+                break;
+            }
+
+            case 4:{
+                if(arquivoEntrada && construirIndiceTabela){
                     ImprimirIndiceInvertidoHash(&tabelaHash);
                 }
                 else{
                     if(!arquivoEntrada){
                         printf("Precisa escolher a opcao de numero 1 primeiro, depois a opcao de numero 2 para selecionar esta opcao.\n");
                     }
-                    else if(arquivoEntrada && !construirIndice){
+                    else if(arquivoEntrada && !construirIndiceTabela){
                         printf("Precisa escolher a opcao de numero 2 primeiro para selecionar esta opcao.\n");
                     } 
                 }
                 break;
             }
 
-            case 4:{
-                if(arquivoEntrada && construirIndice){
+            case 5:{
+                if(arquivoEntrada && construirIndicePatricia){
                     // chama aqui a função Para imprimir o indice invertido construido pela Arvore Patricia:
                 }
                 else{
                     if(!arquivoEntrada){
-                        printf("Precisa escolher a opcao de numero 1 primeiro, depois a opcao de numero 2 para selecionar esta opcao.\n");
+                        printf("Precisa escolher a opcao de numero 1 primeiro, depois a opcao de numero 3 para selecionar esta opcao.\n");
                     }
-                    else if(arquivoEntrada && !construirIndice){
-                        printf("Precisa escolher a opcao de numero 2 primeiro para selecionar esta opcao.\n");
+                    else if(arquivoEntrada && !construirIndicePatricia){
+                        printf("Precisa escolher a opcao de numero 3 primeiro para selecionar esta opcao.\n");
                     }
                 }
                 break;
             }
 
-            case 5:{
-                if(arquivoEntrada && construirIndice){
-                    // chama aqui a função Para realizar buscas por textos pela Tabela Hash:
+            case 6:{
+                if(arquivoEntrada && construirIndiceTabela){
                     buscaPorTexto(&tabelaHash);
                 }
                 else{
                     if(!arquivoEntrada){
                         printf("Precisa escolher a opcao de numero 1 primeiro, depois a opcao de numero 2 para selecionar esta opcao.\n");
                     }
-                    else if(arquivoEntrada && !construirIndice){
-                        printf("Precisa escolher a opcao de numero 2 primeiro para selecionar esta opcao.\n");
-                    }
-                    
-                }
-                break;
-            }
-
-            case 6:{
-                if(arquivoEntrada && construirIndice){
-                    // chama aqui a função Para realizar buscas por textos pela Arvore Patricia:
-                }
-                else{
-                    if(!arquivoEntrada){
-                        printf("Precisa escolher a opcao de numero 1 primeiro, depois a opcao de numero 2 para selecionar esta opcao.\n");
-                    }
-                    else if(arquivoEntrada && !construirIndice){
+                    else if(arquivoEntrada && !construirIndiceTabela){
                         printf("Precisa escolher a opcao de numero 2 primeiro para selecionar esta opcao.\n");
                     }
                     
@@ -126,6 +159,22 @@ int main(){
             }
 
             case 7:{
+                if(arquivoEntrada && construirIndicePatricia){
+                    // chama aqui a função Para realizar buscas por textos pela Arvore Patricia:
+                }
+                else{
+                    if(!arquivoEntrada){
+                        printf("Precisa escolher a opcao de numero 1 primeiro, depois a opcao de numero 3 para selecionar esta opcao.\n");
+                    }
+                    else if(arquivoEntrada && !construirIndicePatricia){
+                        printf("Precisa escolher a opcao de numero 3 primeiro para selecionar esta opcao.\n");
+                    }
+                    
+                }
+                break;
+            }
+
+            case 8:{
                 continuar = false;
                 printf("Saindo do programa...\n");
                 break;
@@ -140,7 +189,6 @@ int main(){
         printf("------------------------------------------------------------------------------\n\n");
 
     }
-    
-    system("pause");
+    //system("pause");
     return 0;
 }
