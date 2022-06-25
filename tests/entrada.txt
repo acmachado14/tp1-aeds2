@@ -7,3 +7,4 @@ arquivo5.txt
 arquivo6.txt
 arquivo7.txt
 arquivo8.txt
+arquivo9.txt
