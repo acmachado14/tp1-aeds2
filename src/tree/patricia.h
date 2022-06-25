@@ -7,17 +7,19 @@
 
 typedef enum{
 	interno, externo
-}TipoDoNo; //essa enumeracao serve pra identificar se o no e Externo ou Interno
+}TipoDoNo;
 
 typedef struct TipoPatNo{
     TipoDoNo notipo;
+    char *chave;
+    int idDoc;
+    int qtde;
     union{
         struct{
-            unsigned char indice;          //essa variavel guarda o indice em que o no interno se difere
-            char compara;                  //essa variavel guarda qual o caracter diferente, presente no indice acima
+            unsigned char indice;
+            char compara;                 //essa variavel guarda qual o caracter diferente, presente no indice acima
             struct TipoPatNo *esquerda, *direita;
         }NoInterno;
-        char *chave;  //ponteiro pra char que aponta para a string que estamos armazenando, se o nao for externo
     }PatNo;
 }TipoPatNo;
 
@@ -28,13 +30,13 @@ short NoEExterno(TipoPatNo *no);
 
 TipoPatNo *CriaNoInt(int i, char c, TipoPatNo **esq, TipoPatNo **dir, int *Memoria);
 
-TipoPatNo *CriaNoExt(char *ch, int *Memoria);
+TipoPatNo *CriaNoExt(char *ch, int *Memoria, int idDoc);
 
-void BuscaPat (char k[], TipoPatNo *no, int *Comparacoes);
+void BuscaPat (char k[], TipoPatNo *no);
 
-TipoPatNo *InsereEntre (char k[], char compara, TipoPatNo **no, int i, int *Comparacoes, int *Memoria);
+TipoPatNo *InsereEntre (char k[], char compara, TipoPatNo **no, int i, int *Memoria, int idDoc);
 
-TipoPatNo *Insere(char k[], TipoPatNo **no, int *Comparacoes, int *Memoria);
+TipoPatNo *Insere(char k[], TipoPatNo **no, int *Memoria, int idDoc);
 
 int ContaPalavras(TipoPatNo *no);
 

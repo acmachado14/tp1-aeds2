@@ -129,7 +129,8 @@ int main(){
 
             case 5:{
                 if(arquivoEntrada && construirIndicePatricia){
-                    // chama aqui a função Para imprimir o indice invertido construido pela Arvore Patricia:
+                    //ImprimePalavras(pat);
+                    ImprimirIndiceInvertidoPat(pat);
                 }
                 else{
                     if(!arquivoEntrada){

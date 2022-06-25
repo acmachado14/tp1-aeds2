@@ -84,3 +84,79 @@ void freeArvoreIndice(NoIndiceInvertido **no){
         (*no) = NULL;
     }
 }
+
+
+//-------------------------------------------PATRICIA------------------------------------------------
+
+void percrusaoPatricia(ArvoreIndiceInvertidoPat *raiz, TipoPatNo *pat){
+    if (pat->notipo == externo){
+        insercaoArvorePat(&raiz->no, pat);
+    }else{
+        percrusaoPatricia(raiz,pat->PatNo.NoInterno.esquerda);
+        percrusaoPatricia(raiz,pat->PatNo.NoInterno.direita);
+    }
+};
+
+// Função para imprimir o indice invertido criado pela tabela hash, utilizando para tal o auxilio de uma
+// arvore BST
+void ImprimirIndiceInvertidoPat(TipoPatNo *pat){
+    ArvoreIndiceInvertidoPat raiz;
+    inicializaArvoreIndicePat(&raiz.no);
+
+    percrusaoPatricia(&raiz, pat);
+
+    percursoOrdemPat(&raiz.no);
+    freeArvoreIndicePat(&raiz.no);
+}
+
+
+//Inicializa arvore de indices
+void inicializaArvoreIndicePat(NoIndiceInvertidoPat **raiz){
+    *raiz = NULL;
+}
+
+// A arvore guarda no 'no' apenas o endereco da celula onde esta a string e seus dados.
+void insercaoArvorePat(NoIndiceInvertidoPat **no, TipoPatNo *patNo){
+    if (*no == NULL){
+        (*no) = (NoIndiceInvertidoPat*)malloc(sizeof(NoIndiceInvertidoPat));
+        (*no)->patNo = patNo;
+        (*no)->dir = NULL;
+        (*no)->esq = NULL;
+    }
+    else{
+        int indice;
+        indice = comparaString(patNo->chave, (*no)->patNo->chave);
+        if (indice < 0){
+            insercaoArvorePat(&(*no)->esq, patNo);
+        }
+        if(indice > 0){
+            insercaoArvorePat(&(*no)->dir, patNo);
+        }
+    }
+}
+
+// Função que vai imprimir o indice invertido em si, ao percorrer a arvore em ordem crescente
+void percursoOrdemPat(NoIndiceInvertidoPat **no){
+    if((*no) != NULL){
+        TipoPatNo *dadosPat;
+        percursoOrdemPat(&(*no)->esq);
+
+        printf("%-15s  ", (*no)->patNo->chave);
+        dadosPat = (*no)->patNo;
+        printf("<%d,%d> ", dadosPat->qtde, dadosPat->idDoc);
+        printf("\n");
+
+        percursoOrdemPat(&(*no)->dir);
+    }
+}
+
+
+// Fução para liberar memoria
+void freeArvoreIndicePat(NoIndiceInvertidoPat **no){
+    if((*no) != NULL){
+        freeArvoreIndicePat(&(*no)->esq);
+        freeArvoreIndicePat(&(*no)->dir);
+        free((*no));
+        (*no) = NULL;
+    }
+}

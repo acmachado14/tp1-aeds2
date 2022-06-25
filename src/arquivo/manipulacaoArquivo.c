@@ -57,7 +57,7 @@ bool construirIndiceInvertidoHash(TabelaHash *tabelaHash, char **arquivosTeste, 
             j = 0;
             while(buffer1[j] != '\0'){
                 buffer2[j] = tolower(buffer1[j]); // Função que converte um caractere maiusculo em minusculo
-                j++;                             
+                j++;
             }
             buffer2[j] = '\0';
             clockAux1 = clock();
@@ -81,7 +81,6 @@ bool construirIndiceInvertidoPatricia(TipoPatNo **pat, char **arquivosTeste,  in
     clock_t clockInicio, clockFim;
     clockInicio = clock();
 
-    int Comparacoes = 0;
     int Memoria = 0;
 
     for(i = 0; i < N; i++){
@@ -100,11 +99,10 @@ bool construirIndiceInvertidoPatricia(TipoPatNo **pat, char **arquivosTeste,  in
                 j++;
             }
             buffer2[j] = '\0';
-            (*pat) = Insere(buffer2, pat, &Comparacoes, &Memoria);
+            (*pat) = Insere(buffer2, pat, &Memoria, i);
         }
         fclose(file);
     }
-    printf("Numero de Comparacoes: %d\nTempo de execucao: %lf ms\nMemoria alocada: %d bytes\n\n", Comparacoes,
-    ((double)(clockFim - clockInicio) * 1000)/(CLOCKS_PER_SEC), Memoria);
+    printf("Tempo de execucao: %lf ms\nMemoria alocada: %d bytes\n\n", ((double)(clockFim - clockInicio) * 1000)/(CLOCKS_PER_SEC), Memoria);
     return false;
 }
