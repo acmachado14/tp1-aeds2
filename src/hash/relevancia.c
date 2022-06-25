@@ -4,8 +4,10 @@
 
 #include "relevancia.h"
 
+// Função que de acordo com os termos inseridos pelo usuario, retorna para o usuario os arquivos inseridos
+// de acordo com sua relevancia
 void buscaPorTexto(TabelaHash *tabelaHash){
-    int q = 0; // q representa a quantidade de termos 
+    int q = 0; // q representa a quantidade de termos a serem buscados
     printf("Digite a quantidade de termo(s) de busca: ");
     scanf("%d", &q);
     clearStdin();
@@ -29,6 +31,7 @@ void buscaPorTexto(TabelaHash *tabelaHash){
     int N;
     N = tabelaHash->N;
     float r;
+    // A arvore BST ArvoreRelevancia guarda a relevancia os dos documentos 
     ArvoreRelevancia raiz;
     inicializaArvoreRelevancia(&raiz.no);
     for(i = 0; i < N; i++){
@@ -40,12 +43,15 @@ void buscaPorTexto(TabelaHash *tabelaHash){
     freeArvoreRelevancia(&raiz.no);
 }
 
+
+// Função que calcula a relevancia de um documento atravez do TF-IDF dos termos em um documento
 float relevanciaDocumento(TabelaHash *tabelaHash, char **termos, int idDoc, int q){
     ApontadorDados dados;
     ApontadorCelula celula;
     Lista *lista;
 
-    int i, M, N;
+    int i, M;
+    double N;
     M = tabelaHash->M;
     N = tabelaHash->N;
     int ni = 0;
@@ -66,6 +72,7 @@ float relevanciaDocumento(TabelaHash *tabelaHash, char **termos, int idDoc, int 
         }
     }
     float r, w;
+    double logN;
     r = 0.0;
     int hashCode, f, dj;
     for(i = 0; i < q; i++){
@@ -98,13 +105,16 @@ float relevanciaDocumento(TabelaHash *tabelaHash, char **termos, int idDoc, int 
             printf("O termo %s nao esta na tabela hash.\n", termos[i]);
             continue;
         }
-        w = f * log2(N) / dj;
+        logN = log2(N);
+        w = f * logN / dj;
         r += w;
     }
     r = r / ni;
     return r;
 }
 
+// AS próximas três funções servem para inicializar a arvore BST, inserir as relevancias dos documentos na arvore
+// e imprimir os nomes dos arquivos de acordo com sua relevancia, do arquivo de maior relevancia para o de menor relevancia
 void inicializaArvoreRelevancia(NoRelevancia **raiz){
     *raiz = NULL;
 }
@@ -135,6 +145,7 @@ void percursoRelevancia(NoRelevancia **no){
     }
 }
 
+// Função para liberar memória
 void freeArvoreRelevancia(NoRelevancia **no){
     if((*no) != NULL){
         freeArvoreRelevancia(&(*no)->esq);

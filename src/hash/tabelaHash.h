@@ -39,9 +39,9 @@ typedef struct{
 
 
 void GerarPesos(Pesos *pesos);
-void Inicializa(TabelaHash *tabelaHash, int N);
+void InicializaTabelaHash(TabelaHash *tabelaHash, int N);
 void FazListaVazia(Lista *lista);
-void Inserir(TabelaHash *tabelaHash, char *string, int idDoc);
+void InserirTabelaHash(TabelaHash *tabelaHash, char *string, int idDoc);
 void IInseri(Lista *lista, char *string, int idDoc);
 int HashFunction(Pesos pesos, char *string, int M);
 int tamanhoTabelaHash(int N);

@@ -4,7 +4,8 @@
 
 #include "indiceInvertido.h"
 
-
+// Função para imprimir o indice invertido criado pela tabela hash, utilizando para tal o auxilio de uma
+// arvore BST
 void ImprimirIndiceInvertidoHash(TabelaHash *tabelaHash){
     Lista *lista;
     ApontadorCelula celula;
@@ -25,6 +26,9 @@ void ImprimirIndiceInvertidoHash(TabelaHash *tabelaHash){
     freeArvoreIndice(&raiz.no);
 }
 
+// Função que compara alfabeticamente 2 strings, que retorna -1 se stringInserir for 'menor' alfabeticamente 
+// que stringInserida, 1 se stringInserir for 'maior' que stringInserida. Retornaria 0 se elas fossem a mesma
+// string, mas como na tabela hash em questão não garda uma mesma string 2 vezes, esse resultado não e retornado
 int comparaString(char *stringInserir, char *stringInserida){
     int indice;
     indice = strcmp(stringInserir, stringInserida);
@@ -35,6 +39,7 @@ void inicializaArvoreIndice(NoIndiceInvertido **raiz){
     *raiz = NULL;
 }
 
+// A arvore guarda no 'no' apenas o endereco da celula onde esta a string e seus dados.
 void insercaoArvore(NoIndiceInvertido **no, ApontadorCelula celula){
     if (*no == NULL){
         (*no) = (NoIndiceInvertido*)malloc(sizeof(NoIndiceInvertido));
@@ -54,6 +59,7 @@ void insercaoArvore(NoIndiceInvertido **no, ApontadorCelula celula){
     } 
 }
 
+// Função que vai imprimir o indice invertido em si, ao percorrer a arvore em ordem crescente
 void percursoOrdem(NoIndiceInvertido **no){
     if((*no) != NULL){
         ApontadorDados dados;
@@ -69,6 +75,7 @@ void percursoOrdem(NoIndiceInvertido **no){
     }
 }
 
+// Fução para liberar memoria
 void freeArvoreIndice(NoIndiceInvertido **no){
     if((*no) != NULL){
         freeArvoreIndice(&(*no)->esq);
