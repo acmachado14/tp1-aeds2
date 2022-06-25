@@ -129,8 +129,8 @@ int main(){
 
             case 5:{
                 if(arquivoEntrada && construirIndicePatricia){
-                    //ImprimePalavras(pat);
-                    ImprimirIndiceInvertidoPat(pat);
+                    ImprimePalavras(pat);
+                    //ImprimirIndiceInvertidoPat(pat);
                 }
                 else{
                     if(!arquivoEntrada){

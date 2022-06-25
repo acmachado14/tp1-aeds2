@@ -20,19 +20,3 @@ void inicializaArvoreIndice(NoIndiceInvertido **raiz);
 void insercaoArvore(NoIndiceInvertido **no, ApontadorCelula celula);
 void percursoOrdem(NoIndiceInvertido **no);
 void freeArvoreIndice(NoIndiceInvertido **no);
-
-typedef struct noIndicePat{
-    TipoPatNo *patNo;
-    struct noIndicePat *esq, *dir;
-}NoIndiceInvertidoPat;
-
-typedef struct{
-    NoIndiceInvertidoPat *no;
-}ArvoreIndiceInvertidoPat;
-
-void inicializaArvoreIndicePat(NoIndiceInvertidoPat **raiz);
-void ImprimirIndiceInvertidoPat(TipoPatNo *pat);
-void insercaoArvorePat(NoIndiceInvertidoPat **no, TipoPatNo *patNo);
-void percursoOrdemPat(NoIndiceInvertidoPat **no);
-void freeArvoreIndicePat(NoIndiceInvertidoPat **no);
-void percrusaoPatricia(ArvoreIndiceInvertidoPat *raiz, TipoPatNo *pat);
