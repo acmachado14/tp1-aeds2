@@ -1,6 +1,8 @@
 #include "manipulacaoArquivo.h"
 #include <ctype.h>
 
+// Função que lê o arquivo de entrada e guarda os nomes dos arquivos de teste em arquivosTeste,
+//  é a quantidade de arquivos de teste em N
 bool leituraArquivoEntrada(char **arquivosTeste, int *N){
     char arquivoEntrada[50];
     char *str1 = "../TP1-AEDS2/tests/";
@@ -30,6 +32,7 @@ bool leituraArquivoEntrada(char **arquivosTeste, int *N){
     return false;
 }
 
+// Lê os arquivos de teste, e chama a função de inserir na tabela hash para cada palavra
 bool construirIndiceInvertidoHash(TabelaHash *tabelaHash, char **arquivosTeste,  int N){
     char *str1 = "../TP1-AEDS2/tests/";
     char buffer[50];
@@ -38,9 +41,10 @@ bool construirIndiceInvertidoHash(TabelaHash *tabelaHash, char **arquivosTeste, 
     int i, j;
     clock_t clockTabela, clockAux1;
     clockTabela = clock();
-    Inicializa(tabelaHash, N);
+    InicializaTabelaHash(tabelaHash, N);
     clockTabela = clock() - clockTabela;
     for(i = 0; i < N; i++){
+        // Concatena o nome do arquivo de teste com o caminho da pasta onde ele está para que sejá possivel abrir ele
         strcat(strcpy(buffer, str1), arquivosTeste[i]);
         FILE *file;
         file = fopen(buffer, "r");
@@ -52,12 +56,12 @@ bool construirIndiceInvertidoHash(TabelaHash *tabelaHash, char **arquivosTeste, 
             fscanf(file,"%s ", buffer1);
             j = 0;
             while(buffer1[j] != '\0'){
-                buffer2[j] = tolower(buffer1[j]);
-                j++;
+                buffer2[j] = tolower(buffer1[j]); // Função que converte um caractere maiusculo em minusculo
+                j++;                             
             }
             buffer2[j] = '\0';
             clockAux1 = clock();
-            Inserir(tabelaHash, buffer2, i);
+            InserirTabelaHash(tabelaHash, buffer2, i);
             clockAux1 = clock() - clockAux1;
             clockTabela = clockAux1 + clockTabela;
         }
@@ -67,6 +71,7 @@ bool construirIndiceInvertidoHash(TabelaHash *tabelaHash, char **arquivosTeste, 
     return false;
 }
 
+// Lê os arquivos de teste, e chama a função de inserir na arvore patrici para cada palavra
 bool construirIndiceInvertidoPatricia(TipoPatNo **pat, char **arquivosTeste,  int N){
     char *str1 = "../TP1-AEDS2/tests/";
     char buffer[50];

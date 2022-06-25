@@ -6,14 +6,15 @@
 #include "../indice/indiceInvertido.h"
 
 typedef struct noRelevancia{
-    float r;
-    int idDoc;
+    float r;   // Relevancia de um documento 
+    int idDoc; // idDoc do documento em questão
     struct noRelevancia *esq, *dir;
 }NoRelevancia;
 
 typedef struct{
     NoRelevancia *no;
 }ArvoreRelevancia;
+
 
 void inicializaArvoreRelevancia(NoRelevancia **raiz);
 void insercaoR(NoRelevancia **no, float r, int id);
