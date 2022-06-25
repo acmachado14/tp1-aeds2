@@ -23,7 +23,7 @@ TipoPatNo *CriaNoInt(int i, char c, TipoPatNo **esq, TipoPatNo **dir, int *Memor
     return no;
 };
 
-TipoPatNo *CriaNoExt(char *ch, int *Memoria){  //cria n� externo
+TipoPatNo *CriaNoExt(char *ch, int *Memoria){  //cria no externo
     TipoPatNo *no;
     no = malloc(sizeof(TipoPatNo));
     (*Memoria) += sizeof(*no);
@@ -35,12 +35,12 @@ TipoPatNo *CriaNoExt(char *ch, int *Memoria){  //cria n� externo
     return no;
 };
 
-void BuscaPat(char k[], TipoPatNo *no, int *Comparacoes){ //fun��o de pesquisa
-    if (NoEExterno(no)){                                                                            //primeiramente verifica se o n� atual � Externo
+void BuscaPat(char k[], TipoPatNo *no, int *Comparacoes){ //funcao de pesquisa
+    if (NoEExterno(no)){                                  //primeiramente verifica se o no atual e Externo
         (*Comparacoes)++;
         if(strcmp(k,no->PatNo.chave) == 0){
             (*Comparacoes)++;
-            printf("Elemento encontrado: %s\n", no->PatNo.chave);    //depois, compara a string sendo pesquisada com a chave do n� atual
+            printf("Elemento encontrado: %s\n", no->PatNo.chave);    //depois, compara a string sendo pesquisada com a chave do no atual
         }
         else{
             (*Comparacoes)++;
@@ -50,7 +50,7 @@ void BuscaPat(char k[], TipoPatNo *no, int *Comparacoes){ //fun��o de pesqui
     }
     if (Bit(no->PatNo.NoInterno.indice, k) < no->PatNo.NoInterno.compara){
         (*Comparacoes)++;
-        BuscaPat(k, no->PatNo.NoInterno.esquerda, Comparacoes);  //se o n� n�o for externo, ele faz as compara��es para ver se ele deve chamar a fun��o recursivamente � esquerda ou � direita
+        BuscaPat(k, no->PatNo.NoInterno.esquerda, Comparacoes);  //se o no nao for externo, ele faz as comparacoes para ver se ele deve chamar a funcao recursivamente e esquerda ou e direita
     }
     else{
         (*Comparacoes)++;
@@ -58,11 +58,10 @@ void BuscaPat(char k[], TipoPatNo *no, int *Comparacoes){ //fun��o de pesqui
     }
 };
 
-TipoPatNo *InsereEntre (char k[], char compara, TipoPatNo **no, int i, int *Comparacoes, int *Memoria){ //Essa � a fun��o de inser��o recursiva
+TipoPatNo *InsereEntre (char k[], char compara, TipoPatNo **no, int i, int *Comparacoes, int *Memoria){ //Essa e a funcao de insercao recursiva
     TipoPatNo *Pno;
     if (NoEExterno(*no)){
         (*Comparacoes)++;
-        //puts("condicao 1");
         Pno = CriaNoExt(k, Memoria);
         if (Bit(i, k) > Bit (i, (*no)->PatNo.chave)){
             (*Comparacoes)++;
@@ -75,7 +74,6 @@ TipoPatNo *InsereEntre (char k[], char compara, TipoPatNo **no, int i, int *Comp
 
     else if (i == (*no)->PatNo.NoInterno.indice){
         (*Comparacoes)++;
-        //puts("condicao 2");
         Pno = CriaNoExt(k, Memoria);
         if (Bit(i, k) > (*no)->PatNo.NoInterno.compara) {
             (*Comparacoes)++;
@@ -89,7 +87,6 @@ TipoPatNo *InsereEntre (char k[], char compara, TipoPatNo **no, int i, int *Comp
 
     else if (i < (*no)->PatNo.NoInterno.indice){
         (*Comparacoes)++;
-        //puts("condicao 3");
         Pno = CriaNoExt(k, Memoria);
         if (Bit(i, k) > compara){
             (*Comparacoes)++;
@@ -101,7 +98,6 @@ TipoPatNo *InsereEntre (char k[], char compara, TipoPatNo **no, int i, int *Comp
     }
 
     else {
-        //puts("condicao 4");
         (*Comparacoes)++;
         if (Bit((*no)->PatNo.NoInterno.indice, k) == (*no)->PatNo.NoInterno.compara){
             (*Comparacoes)++;

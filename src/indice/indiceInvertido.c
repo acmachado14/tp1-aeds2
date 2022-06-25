@@ -4,6 +4,27 @@
 
 #include "indiceInvertido.h"
 
+/*
+void ImprimirIndiceInvertidoPatricia(TipoPatNo *patricia){
+    Lista *lista;
+    ApontadorCelula celula;
+    ArvoreIndiceInvertido raiz;
+    inicializaArvoreIndice(&raiz.no);
+    int i, M;
+    M = patricia->M;
+
+    for(i = 0; i < M; i++){
+        lista = &patricia->tabela_hash[i];
+        celula = lista->inicio;
+        while(celula != NULL){
+            insercaoArvore(&raiz.no, celula);
+            celula = celula->prox;
+        }
+    }
+    percursoOrdem(&raiz.no);
+    freeArvoreIndice(&raiz.no);
+}
+*/
 
 void ImprimirIndiceInvertidoHash(TabelaHash *tabelaHash){
     Lista *lista;
@@ -51,7 +72,7 @@ void insercaoArvore(NoIndiceInvertido **no, ApontadorCelula celula){
         if(indice > 0){
             insercaoArvore(&(*no)->dir, celula);
         }
-    } 
+    }
 }
 
 void percursoOrdem(NoIndiceInvertido **no){

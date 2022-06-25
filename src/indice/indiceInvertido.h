@@ -2,8 +2,8 @@
 //Arthur - 4679
 //Iury - 4671
 
-#include "tabelaHash.h"
-
+#include "../hash/tabelaHash.h"
+#include "../tree/patricia.h"
 
 typedef struct noIndice{
     ApontadorCelula celula;
