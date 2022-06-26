@@ -75,6 +75,7 @@ int main(){
                 if(construirIndiceTabela){
                     printf("O indice invertido da Tabela Hash ja foi construido.\n");
                     printf("Escolha outra opcao\n");
+                    break;
                 }
                 if(arquivoEntrada){
                     erroAbrirArquivo =  construirIndiceInvertidoHash(&tabelaHash, arquivosTeste, N);
@@ -95,6 +96,7 @@ int main(){
                 if(construirIndicePatricia){
                     printf("O indice invertido da Arvore Patricia ja foi construido.\n");
                     printf("Escolha outra opcao\n");
+                    break;
                 }
                 if(arquivoEntrada){
                     // deve passar os parametros necessarisos para inserir na arvore patricia
@@ -130,7 +132,6 @@ int main(){
             case 5:{
                 if(arquivoEntrada && construirIndicePatricia){
                     ImprimePalavras(pat);
-                    //ImprimirIndiceInvertidoPat(pat);
                 }
                 else{
                     if(!arquivoEntrada){
@@ -161,7 +162,7 @@ int main(){
 
             case 7:{
                 if(arquivoEntrada && construirIndicePatricia){
-                    // chama aqui a função Para realizar buscas por textos pela Arvore Patricia:
+                    buscaPorTextoPat(pat, N);
                 }
                 else{
                     if(!arquivoEntrada){

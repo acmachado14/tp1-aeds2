@@ -33,10 +33,11 @@ TipoPatNo *CriaNoExt(char *ch, int *Memoria, int idDoc){  //cria n� externo
     (*Memoria) += sizeof(*no);
     no->notipo = externo;
     no->PatNo.NoExterno.chave = malloc(30*sizeof(char));
-    (*Memoria) += sizeof(*no);
+    (*Memoria) += sizeof(no->PatNo.NoExterno.chave);
     strcpy(no->PatNo.NoExterno.chave, ch);
 
     no->PatNo.NoExterno.dados = (ApontadorDadosPat)malloc(sizeof(DadosPat));
+    (*Memoria) += sizeof(*no->PatNo.NoExterno.dados);
     no->PatNo.NoExterno.dados->idDoc = idDoc;
     no->PatNo.NoExterno.dados->qtde = 1;
     no->PatNo.NoExterno.dados->prox = NULL;
