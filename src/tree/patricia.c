@@ -7,18 +7,18 @@
 #include <string.h>
 #include "patricia.h"
 
-char Bit(unsigned char i, char k[]){  //Essa funcao retorna o caractere na posicao i de um vetor k[]
+char Bit(unsigned char i, char k[]){
     return (k[i]);
 };
 
-short NoEExterno(TipoPatNo *no){      //Essa funcao verifica se o no e externo
+short NoEExterno(TipoPatNo *no){
     return (no->notipo == externo);
 };
 
-TipoPatNo *CriaNoInt(int i, char c, TipoPatNo **esq, TipoPatNo **dir, int *Memoria){ //cria no interno,
+TipoPatNo *CriaNoInt(int i, char c, TipoPatNo **esq, TipoPatNo **dir, int *Memoria){
     TipoPatNo *no;
     no = malloc(sizeof(TipoPatNo));
-    (*Memoria) += sizeof(*no); //contador da quantidade de memoria utilizada
+    (*Memoria) += sizeof(*no);
     no->notipo = interno;
     no->PatNo.NoInterno.esquerda = *esq;
     no->PatNo.NoInterno.direita = *dir;
@@ -27,7 +27,7 @@ TipoPatNo *CriaNoInt(int i, char c, TipoPatNo **esq, TipoPatNo **dir, int *Memor
     return no;
 };
 
-TipoPatNo *CriaNoExt(char *ch, int *Memoria, int idDoc){  //cria n� externo
+TipoPatNo *CriaNoExt(char *ch, int *Memoria, int idDoc){
     TipoPatNo *no;
     no = malloc(sizeof(TipoPatNo));
     (*Memoria) += sizeof(*no);
@@ -42,24 +42,6 @@ TipoPatNo *CriaNoExt(char *ch, int *Memoria, int idDoc){  //cria n� externo
     no->PatNo.NoExterno.dados->qtde = 1;
     no->PatNo.NoExterno.dados->prox = NULL;
     return no;
-};
-
-void BuscaPat(char k[], TipoPatNo *no){ //fun��o de pesquisa
-    if (NoEExterno(no)){                                                                            //primeiramente verifica se o n� atual � Externo
-        if(strcmp(k,no->PatNo.NoExterno.chave) == 0){
-            printf("Elemento encontrado: %s\n", no->PatNo.NoExterno.chave);    //depois, compara a string sendo pesquisada com a chave do n� atual
-        }
-        else{
-            printf("Elemento %s nao encontrado\n", k);
-        }
-        return;
-    }
-    if (Bit(no->PatNo.NoInterno.indice, k) < no->PatNo.NoInterno.compara){
-        BuscaPat(k, no->PatNo.NoInterno.esquerda);  //se o n� n�o for externo, ele faz as compara��es para ver se ele deve chamar a fun��o recursivamente � esquerda ou � direita
-    }
-    else{
-        BuscaPat(k, no->PatNo.NoInterno.direita);
-    }
 };
 
 TipoPatNo *InsereEntre (char k[], char compara, TipoPatNo **no, int i, int *Memoria, int idDoc){ //Essa � a fun��o de inser��o recursiva
@@ -102,12 +84,12 @@ TipoPatNo *InsereEntre (char k[], char compara, TipoPatNo **no, int i, int *Memo
     }
 };
 
-TipoPatNo *Insere(char k[], TipoPatNo **no, int *Memoria, int idDoc){ //Essa e a funcao de insercao principal
+TipoPatNo *Insere(char k[], TipoPatNo **no, int *Memoria, int idDoc){
     TipoPatNo *Pno;
     ApontadorDadosPat dadosAux;
     int i;
     if (*no == NULL){
-        return CriaNoExt(k, Memoria, idDoc);    //Se a arvore ainda estiver vazia, a funcao cria um no externo com a chave k e retorna esse no
+        return CriaNoExt(k, Memoria, idDoc);
     }else{
         Pno = *no;
         while (!NoEExterno(Pno)){
@@ -144,13 +126,6 @@ TipoPatNo *Insere(char k[], TipoPatNo **no, int *Memoria, int idDoc){ //Essa e a
         return (InsereEntre(k, Pno->PatNo.NoExterno.chave[i], no, i, Memoria, idDoc));}
     }
 };
-
-
-int ContaPalavras(TipoPatNo *no){
-    if (no->notipo == externo) return 1;
-    else return ContaPalavras(no->PatNo.NoInterno.esquerda) + ContaPalavras(no->PatNo.NoInterno.direita);
-};
-
 
 void ImprimePalavras(TipoPatNo *no){
     ApontadorDadosPat dados;

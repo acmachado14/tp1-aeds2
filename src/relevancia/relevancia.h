@@ -23,11 +23,11 @@ void clearStdin(void);
 void percursoRelevancia(NoRelevancia **no);
 
 //HASH
-void buscaPorTexto(TabelaHash *tabelaHash);
+void buscaPorTexto(TabelaHash *tabelaHash, int *Memoria);
 float relevanciaDocumento(TabelaHash *tabelaHash, char **termos, int idDoc, int q);
 
 //PATRICIA
-void buscaPorTextoPat(TipoPatNo *patricia, int N);
+void buscaPorTextoPat(TipoPatNo *patricia, int N, int *Memoria);
 float relevanciaDocumentoPat(TipoPatNo *patricia, char **termos, int idDoc, int q, int N);
 int numDistintosPat(TipoPatNo *patricia, int idDoc);
 int numOcorrenciasTermoPat(TipoPatNo *patricia, char *termo, int idDoc);

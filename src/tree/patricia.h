@@ -19,19 +19,18 @@ typedef struct dadosPat{
 
 typedef enum{
 	interno, externo
-}TipoDoNo; //essa enumera��o serve pra identificar se o n� � Externo ou Interno
+}TipoDoNo;
 
 typedef struct TipoPatNo{
     TipoDoNo notipo;
-    //int conta; eu implementei uma forma de contar quantas vezes uma palavra foi encontrada no texto, creio que o tp n�o exige isso, ent�o tudo relacionado a essa fun��o vai estar comentado, mas caso for ajudar em algo, t� a�
     union{
         struct{
-            unsigned char indice;          //essa vari�vel guarda o indice em que o no interno se difere
-            char compara;                  //essa var�avel guarda qual o caracter diferente, presente no indice acima
+            unsigned char indice;
+            char compara;
             struct TipoPatNo *esquerda, *direita;
         }NoInterno;
         struct{
-            char *chave;  //ponteiro pra char que aponta para a string que estamos armazenando, se o n� for externo
+            char *chave;
             ApontadorDadosPat dados;
         }NoExterno;
     }PatNo;
@@ -46,13 +45,9 @@ TipoPatNo *CriaNoInt(int i, char c, TipoPatNo **esq, TipoPatNo **dir, int *Memor
 
 TipoPatNo *CriaNoExt(char *ch, int *Memoria, int idDoc);
 
-void BuscaPat (char k[], TipoPatNo *no);
-
 TipoPatNo *InsereEntre (char k[], char compara, TipoPatNo **no, int i, int *Memoria, int idDoc);
 
 TipoPatNo *Insere(char k[], TipoPatNo **no, int *Memoria, int idDoc);
-
-int ContaPalavras(TipoPatNo *no);
 
 void ImprimePalavras(TipoPatNo *no);
 

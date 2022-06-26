@@ -6,7 +6,7 @@
 
 // Função que de acordo com os termos inseridos pelo usuario, retorna para o usuario os arquivos inseridos
 // de acordo com sua relevancia
-void buscaPorTexto(TabelaHash *tabelaHash){
+void buscaPorTexto(TabelaHash *tabelaHash, int *Memoria){
     int q = 0; // q representa a quantidade de termos a serem buscados
     printf("Digite a quantidade de termo(s) de busca: ");
     scanf("%d", &q);
@@ -23,6 +23,7 @@ void buscaPorTexto(TabelaHash *tabelaHash){
     for(i = 0; i < q; i++){
         termos[i] = (char*)malloc(50 * sizeof(char));
     }
+    (*Memoria) += sizeof(**termos);
     for(i = 0; i < q; i++){
         printf("Termo %d: ", i + 1);
         scanf("%s", termos[i]);
@@ -37,6 +38,7 @@ void buscaPorTexto(TabelaHash *tabelaHash){
     for(i = 0; i < N; i++){
         r = relevanciaDocumento(tabelaHash, termos, i, q);
         insercaoR(&raiz.no, r, i);
+        (*Memoria) += sizeof(NoRelevancia*);
     }
     printf("\nRelevancia dos textos:\n\n");
     percursoRelevancia(&raiz.no);
@@ -163,9 +165,9 @@ void clearStdin(void){
     }
 }
 
-//Patricia
+//Patricia-------------------------------------------------------------------------------------------
 
-void buscaPorTextoPat(TipoPatNo *patricia, int N){
+void buscaPorTextoPat(TipoPatNo *patricia, int N, int *Memoria){
     int q = 0; // q representa a quantidade de termos a serem buscados
     printf("Digite a quantidade de termo(s) de busca: ");
     scanf("%d", &q);
@@ -182,6 +184,7 @@ void buscaPorTextoPat(TipoPatNo *patricia, int N){
     for(i = 0; i < q; i++){
         termos[i] = (char*)malloc(50 * sizeof(char));
     }
+    (*Memoria) += sizeof(**termos);
     for(i = 0; i < q; i++){
         printf("Termo %d: ", i + 1);
         scanf("%s", termos[i]);
@@ -195,6 +198,7 @@ void buscaPorTextoPat(TipoPatNo *patricia, int N){
     for(i = 0; i < N; i++){
         r = relevanciaDocumentoPat(patricia, termos, i, q, N);
         insercaoR(&raiz.no, r, i);
+        (*Memoria) += sizeof(NoRelevancia*);
     }
     printf("\nRelevancia dos textos:\n\n");
     percursoRelevancia(&raiz.no);
