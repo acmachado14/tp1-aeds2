@@ -29,9 +29,11 @@ Basta ter algum compilador de C/C++ em sua máquina, sugestão: [C CompileRun](h
 Execute os seguintes comandos no terminal do projeto:
 
 ```
-cd src 
-gcc main.c
-./a.exe
+make compile
+```
+
+```
+make run
 ```
 - - - -
 
