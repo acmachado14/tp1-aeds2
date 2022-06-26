@@ -23,3 +23,10 @@ Como executar:
 2 - Para executar o programa execute:
 
 -make run
+
+3 - Seguir o terminal interativo
+
+----------------------------------------------------------------------------------------------------------------------
+Os casos de testes ficam armazenados dentro da pasta "tests", caso queira executar algum novo arquivo de teste, e necessario
+cria-lo seguinto a ordem dos arquivos ja existentes, exemplo: arquivo10, arquivo11, ... Tabem e preciso adiciona-lo a um outro
+arquivo de leitura, como acontece em "entrada.txt".
