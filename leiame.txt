@@ -1,0 +1,25 @@
+Primeito trabalho pratico pra disciplina de Algoritmos e Estrutura de Dados 2 - UFV
+
+----------------------------------------------------------------------------------------------------------------------
+Integrantes:
+
+Angelo Cupertino - 4695
+Iury Martins - 4671
+Arthur Fernandes - 4679
+
+----------------------------------------------------------------------------------------------------------------------
+Requisitos:
+
+-Basta ter algum compilador de C/C++ em sua máquina, sugestão: [C CompileRun](https://github.com/danielpinto8zz6/c-cpp-compile-run)
+-Make instalado e configurado na maquina
+
+----------------------------------------------------------------------------------------------------------------------
+Como executar:
+
+1 - Execute o seguinte comando na pasta raiz do projeto para gerar o arquivo executavel:
+
+-make compile
+
+2 - Para executar o programa execute:
+
+-make run
