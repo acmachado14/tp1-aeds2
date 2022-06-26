@@ -225,12 +225,18 @@ float relevanciaDocumentoPat(TipoPatNo *patricia, char **termos, int idDoc, int 
     float w, r;
     r = 0.0;
     double logN;
+    logN = log2(N);
 
     ni = numDistintosPat(patricia,idDoc);
     for(int i = 0; i<q; i++){
+        f = 0;
         f = numOcorrenciasTermoPat(patricia, termos[i],idDoc);
         dj = numeroDocumentosTermoPat(patricia, termos[i],N);
-        logN = log2(N);
+    
+        if (dj == 0){
+            dj = 1;
+        }
+
         w = f * logN / dj;
         r += w;
     }

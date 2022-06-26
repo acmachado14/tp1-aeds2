@@ -9,14 +9,15 @@
 //  é a quantidade de arquivos de teste em N
 bool leituraArquivoEntrada(char **arquivosTeste, int *N){
     char arquivoEntrada[50];
-    char *str1 = "../TP1-AEDS2/tests/";
+    char *str1 = "tests/";
     char buffer[50];
     char buffer1[50];
-    printf("Digite o nome do arquivo de entrada: ");
+    printf("Digite o nome do arquivo de entrada (exemplo: entrada.txt): ");
     scanf("%s", arquivoEntrada);
     clearStdin();
 
     strcat(strcpy(buffer, str1), arquivoEntrada);
+    
     FILE *file;
     file = fopen(buffer, "r");
     if(file == NULL){
@@ -38,7 +39,7 @@ bool leituraArquivoEntrada(char **arquivosTeste, int *N){
 
 // Lê os arquivos de teste, e chama a função de inserir na tabela hash para cada palavra
 bool construirIndiceInvertidoHash(TabelaHash *tabelaHash, char **arquivosTeste,  int N){
-    char *str1 = "../TP1-AEDS2/tests/";
+    char *str1 = "tests/";
     char buffer[50];
     char buffer1[50];
     char buffer2[50];
@@ -79,7 +80,7 @@ bool construirIndiceInvertidoHash(TabelaHash *tabelaHash, char **arquivosTeste, 
 
 // Lê os arquivos de teste, e chama a função de inserir na arvore patrici para cada palavra
 bool construirIndiceInvertidoPatricia(TipoPatNo **pat, char **arquivosTeste,  int N){
-    char *str1 = "../TP1-AEDS2/tests/";
+    char *str1 = "tests/";
     char buffer[50];
     char buffer1[50];
     char buffer2[50];
