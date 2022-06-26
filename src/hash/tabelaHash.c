@@ -14,18 +14,20 @@ void GerarPesos(Pesos *pesos){
     }
 }
 
-// Função para inicializar a tabela hash 
-void InicializaTabelaHash(TabelaHash *tabelaHash, int N){
+// Função para inicializar a tabela hash
+void InicializaTabelaHash(TabelaHash *tabelaHash, int N, int *Memoria){
     int i;
     int M;
     M = tamanhoTabelaHash(N);
     GerarPesos(&tabelaHash->pesos);
+    (*Memoria) += sizeof((*tabelaHash).pesos);
     tabelaHash->N = N;
     tabelaHash->M = M;
     tabelaHash->tabela_hash = (Lista*)malloc(M * sizeof(Lista));
+    (*Memoria) += sizeof((*tabelaHash).tabela_hash);
     for(i = 0; i < M; i++){
         FazListaVazia(&tabelaHash->tabela_hash[i]);
-    } 
+    }
 }
 
 // Função que auxilia na inicializaçao da tabela hash
@@ -46,16 +48,16 @@ int HashFunction(Pesos pesos, char *string, int M){
     return K % M;
 }
 
-void InserirTabelaHash(TabelaHash *tabelaHash, char *string, int idDoc){
+void InserirTabelaHash(TabelaHash *tabelaHash, char *string, int idDoc, int *Memoria){
     int hashCode;
     int N, M;
     M = tabelaHash->M;
     hashCode = HashFunction(tabelaHash->pesos, string, M);
-    IInseri(&tabelaHash->tabela_hash[hashCode], string, idDoc);
+    IInseri(&tabelaHash->tabela_hash[hashCode], string, idDoc, Memoria);
 }
 
 // Função que realmente inseri na tabela hash
-void IInseri(Lista *lista, char *string, int idDoc){
+void IInseri(Lista *lista, char *string, int idDoc, int *Memoria){
     ApontadorDados dadosAux;
     ApontadorCelula celula;
 
@@ -65,20 +67,21 @@ void IInseri(Lista *lista, char *string, int idDoc){
         if(! strcmp(celula->string, string)){
             dadosAux = celula->dados;
             // Caso a string já esteja na tabela hash, o próximo while é if verificão se a string já apareceu
-            // alguma vez no documento que esta sendo lido, por meio do idDoc. Se ela ja tiver aparecido alguma vez, 
+            // alguma vez no documento que esta sendo lido, por meio do idDoc. Se ela ja tiver aparecido alguma vez,
             // incrementa 1 na quantidade de vez que a string aparece naquele documento
             while(dadosAux != NULL){
                 if(dadosAux->idDoc == idDoc){
                     dadosAux->qtde += 1;
                     return;
                 }
-                
+
                 else{
                     // Caso a string não tenha aparecido ainda no documento que esta sendo lido, aloca-se memoria para uma
                     // struct que guarda o idDoc do documento que esta sendo lido, bem como a variavel que guarda a quantidade
                     // de vezes que a string aparece naquele documento recebe 1
                     if(dadosAux->prox == NULL){
                         dadosAux->prox = (ApontadorDados)malloc(sizeof(Dados));
+                        (*Memoria) += sizeof(ApontadorDados);
                         dadosAux = dadosAux->prox;
                         dadosAux->idDoc = idDoc;
                         dadosAux->qtde = 1;
@@ -92,26 +95,30 @@ void IInseri(Lista *lista, char *string, int idDoc){
         celula = celula->prox;
     }
 
-    // Caso o algoritimo passe pelas verificações anteriores, indica que a string ainda não apareceu em 
+    // Caso o algoritimo passe pelas verificações anteriores, indica que a string ainda não apareceu em
     // nenhum documento e criase uma nova celula que guarda a string em questão e os dados passados com ela
     if(lista->ultima == NULL){
         lista->ultima = (ApontadorCelula)malloc(sizeof(Celula));
+        (*Memoria) += sizeof(ApontadorCelula);
         lista->inicio = lista->ultima;
     }
     else{
         lista->ultima->prox = (ApontadorCelula)malloc(sizeof(Celula));
+        (*Memoria) += sizeof(ApontadorCelula);
         lista->ultima = lista->ultima->prox;
     }
 
     lista->ultima->prox = NULL;
     lista->ultima->string = (char*)malloc(strlen(string) * sizeof(char));
+    (*Memoria) += sizeof(lista->ultima->string);
     strcpy(lista->ultima->string, string);
-    
+
     lista->ultima->dados = (ApontadorDados)malloc(sizeof(Dados));
+    (*Memoria) += sizeof(ApontadorDados);
     lista->ultima->dados->idDoc = idDoc;
     lista->ultima->dados->qtde = 1;
     lista->ultima->dados->prox = NULL;
-    
+
 }
 
 // A função retorna o primeiro primo maior da divisão da estimativa de chaves pelo fator de carga

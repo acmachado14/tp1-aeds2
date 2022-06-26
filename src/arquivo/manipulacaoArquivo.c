@@ -1,3 +1,7 @@
+//Angelo - 4695
+//Arthur - 4679
+//Iury - 4671
+
 #include "manipulacaoArquivo.h"
 #include <ctype.h>
 
@@ -41,7 +45,9 @@ bool construirIndiceInvertidoHash(TabelaHash *tabelaHash, char **arquivosTeste, 
     int i, j;
     clock_t clockTabela, clockAux1;
     clockTabela = clock();
-    InicializaTabelaHash(tabelaHash, N);
+
+    int Memoria = 0;
+    InicializaTabelaHash(tabelaHash, N, &Memoria);
     clockTabela = clock() - clockTabela;
     for(i = 0; i < N; i++){
         // Concatena o nome do arquivo de teste com o caminho da pasta onde ele está para que sejá possivel abrir ele
@@ -61,13 +67,13 @@ bool construirIndiceInvertidoHash(TabelaHash *tabelaHash, char **arquivosTeste, 
             }
             buffer2[j] = '\0';
             clockAux1 = clock();
-            InserirTabelaHash(tabelaHash, buffer2, i);
+            InserirTabelaHash(tabelaHash, buffer2, i, &Memoria);
             clockAux1 = clock() - clockAux1;
             clockTabela = clockAux1 + clockTabela;
         }
         fclose(file);
     }
-    printf("Tempo de construcao do indice invertido pela Tabela Hash: %f segundos\n", ((float)(clockTabela))/(float)CLOCKS_PER_SEC);
+    printf("Tempo de execucao: %f ms\nMemoria alocada: %d bytes\n\n", ((float)(clockTabela) * 1000)/(CLOCKS_PER_SEC), Memoria);
     return false;
 }
 
@@ -78,8 +84,9 @@ bool construirIndiceInvertidoPatricia(TipoPatNo **pat, char **arquivosTeste,  in
     char buffer1[50];
     char buffer2[50];
     int i, j;
-    clock_t clockInicio, clockFim;
-    clockInicio = clock();
+    clock_t clockTabela, clockAux1;
+    clockTabela = clock();
+    clockTabela = clock() - clockTabela;
 
     int Memoria = 0;
 
@@ -98,11 +105,16 @@ bool construirIndiceInvertidoPatricia(TipoPatNo **pat, char **arquivosTeste,  in
                 buffer2[j] = tolower(buffer1[j]);
                 j++;
             }
+
             buffer2[j] = '\0';
+
+            clockAux1 = clock();
             (*pat) = Insere(buffer2, pat, &Memoria, i);
+            clockAux1 = clock() - clockAux1;
+            clockTabela = clockAux1 + clockTabela;
         }
         fclose(file);
     }
-    printf("Tempo de execucao: %lf ms\nMemoria alocada: %d bytes\n\n", ((double)(clockFim - clockInicio) * 1000)/(CLOCKS_PER_SEC), Memoria);
+    printf("Tempo de execucao: %f ms\nMemoria alocada: %d bytes\n\n", ((float)(clockTabela) * 1000)/(CLOCKS_PER_SEC), Memoria);
     return false;
 }

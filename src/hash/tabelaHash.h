@@ -39,10 +39,10 @@ typedef struct{
 
 
 void GerarPesos(Pesos *pesos);
-void InicializaTabelaHash(TabelaHash *tabelaHash, int N);
+void InicializaTabelaHash(TabelaHash *tabelaHash, int N, int *Memoria);
 void FazListaVazia(Lista *lista);
-void InserirTabelaHash(TabelaHash *tabelaHash, char *string, int idDoc);
-void IInseri(Lista *lista, char *string, int idDoc);
+void InserirTabelaHash(TabelaHash *tabelaHash, char *string, int idDoc, int *Memoria);
+void IInseri(Lista *lista, char *string, int idDoc, int *Memoria);
 int HashFunction(Pesos pesos, char *string, int M);
 int tamanhoTabelaHash(int N);
 void freeTabelaHash(TabelaHash *tabelaHash);
