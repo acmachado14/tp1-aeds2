@@ -142,7 +142,7 @@ void insercaoR(NoRelevancia **no, float r, int idDoc){
 void percursoRelevancia(NoRelevancia **no){
     if((*no) != NULL){
         percursoRelevancia(&(*no)->dir);
-        printf("Texto %d (arquivo%d.txt)\n", (*no)->idDoc + 1, (*no)->idDoc + 1);
+        printf("Texto %d (arquivo%d.txt)\n", (*no)->idDoc, (*no)->idDoc);
         percursoRelevancia(&(*no)->esq);
     }
 }

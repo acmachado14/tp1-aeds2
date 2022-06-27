@@ -44,7 +44,7 @@ TipoPatNo *CriaNoExt(char *ch, int *Memoria, int idDoc){
     return no;
 };
 
-TipoPatNo *InsereEntre (char k[], char compara, TipoPatNo **no, int i, int *Memoria, int idDoc){ //Essa � a fun��o de inser��o recursiva
+TipoPatNo *InsereEntre (char k[], char compara, TipoPatNo **no, int i, int *Memoria, int idDoc){
     TipoPatNo *Pno;
     if (NoEExterno(*no)){
         Pno = CriaNoExt(k, Memoria, idDoc);

@@ -1,4 +1,5 @@
 9
+arquivo0.txt
 arquivo1.txt
 arquivo2.txt
 arquivo3.txt
@@ -7,4 +8,3 @@ arquivo5.txt
 arquivo6.txt
 arquivo7.txt
 arquivo8.txt
-arquivo9.txt

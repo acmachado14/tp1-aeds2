@@ -1,8 +1,243 @@
-Faca uma lista de grandes amigos
-quem voce mais via ha dez anos atras
-Quantos voce ainda ve todo dia
-Quantos voce ja nao encontra mais
-Faca uma lista dos sonhos que tinha
-Quantos voce desistiu de sonhar
-Quantos amores jurados pra sempre
-Quantos voce conseguiu preservar
+APLICACAO COM ARVORES DIGITAIS E TABELAS HASH
+Formacao do grupo O trabalho devera ser desenvolvido em trios e alguns
+quarteto Sugere se que os grupos sejam organizados dentro da divisao de
+turmas praticas
+Problema Construcao de indice invertido para maquinas de busca
+Maquinas de busca tais como Google trabalham com a busca de
+palavras chave em textos armazenados na Web Para que os documentos
+contendo os termos sejam recuperados os mesmos precisam ser devidamente
+indexados a priori Nesse contexto sao utilizadas estruturas de dados que
+facilitem a recuperacao das informacoes como e o caso do uso de arquivos
+invertidos Dada uma colecao de documentos um indice invertido e uma
+estrutura contendo uma entrada para cada palavra termo de busca que
+aparece em pelo menos um dos documentos Essa entrada associa a cada
+palavra do texto um ou mais pares do tipo qtde idDoc onde qtde
+corresponde ao numero de vezes em que a palavra em questao apareceu em
+um determinado documento identificado por idDoc O nome dado a estrutura
+indica que houve uma inversao da hierarquia da informacao ou seja ao inves
+de uma lista de documentos contendo termos e obtida uma lista de termos
+referenciando documentos Essa estrutura de indices e comumente
+implementada com base em arvores e tabelas hash pois as mesmas nao
+precisam ser reconstruidas a cada atualizacao
+Para exemplificar considere os dois documentos mostrados abaixo
+Texto  arquivo txt  Quem casa quer casa Porem ninguem casa
+Ninguem quer casa tambem Quer apartamento
+Texto  arquivo txt Ninguem em casa Todos sairam Todos Quer
+entrar Quem Quem
+Assuma que os textos nao terao acentuacao Alem disso palavras com letras
+maiusculas devem ser primeiramente transformadas para minusculas antes
+da insercao no indice Desta forma a mesma palavra apresentada com letras
+minusculas ou maiusculas nao serao diferenciadas
+Universidade Federal de Vicosa
+Campus Florestal
+Algoritmos e Estruturas de Dados 
+Supondo os identificadores e para os textos apresentados
+arquivo txt e arquivo txt respectivamente o indice invertido para as
+palavras contidas nos textos pode ser visualizado na Tabela 
+Tabela   Indices invertidos para os textos apresentados
+Palavra qtde
+idDoc
+qtde
+idDoc
+apartamento
+casa
+em
+entrar
+ninguem
+porem
+quem
+quer
+sairam
+tambem
+todos
+Conforme pode ser observado na Tabela  para cada palavra existe
+uma lista de pares de numeros qtde idDoc ordenada pelo campo idDoc
+Em termos praticos essa lista poderia ser implementada como uma lista
+encadeada para cada palavra indexada
+Projete um sistema para produzir um indice invertido que receba
+como entrada um arquivo entrada txt no seguinte formato
+N
+arquivo txt
+arquivo txt
+arquivo txt
+Universidade Federal de Vicosa
+Campus Florestal
+Algoritmos e Estruturas de Dados II
+arquivoN txt
+A primeira linha deste arquivo contem um numero N que
+representa o numero de documentos da colecao Cada linha a seguir contem
+o nome do arquivo que contem um dos documentos da colecao No exemplo
+acima ha N documentos que estao armazenados nos arquivos
+arquivo txt arquivo txt arquivoN  Voce pode assumir que estes
+arquivos caso existam voce precisa testar estarao no diretorio corrente de
+execucao
+O sistema devera processar cada um dos arquivos lendo palavra apos
+palavra e construindo o indice invertido Ele devera tambem associar a cada
+documento um idDoc unico e associar em memoria este identificador com
+o nome do documento Voce e responsavel por criar colecoes de
+documentos para testes Submeta os junto com o seu trabalho no pacote zip
+Tarefas
+Receber como entrada o arquivo entrada com n arquivos com
+textos cujas palavras serao indexadas
+Criar um Indice Invertido em duas versoes
+Usando um TAD arvore PATRICIA
+Usando uma TAD tabela HASH com enderecamento fechado
+Para construir a arvore PATRICIA deve se adaptar os algoritmos
+fornecidos em sala de aula para permitir o armazenamento de palavras
+A solucao mais comum e inserir mais um campo de comparacao em
+cada no ou seja alem do campo de indice que avanca x posicoes na
+palavra sera necessario tambem ter um campo com o caracter que esta
+sendo comparado naquela posicao para se decidir o caminho a seguir
+esquerda ou direita A decisao de se colocar no no interno o menor ou
+o maior caracter de comparacao e se os iguais ficarao a esquerda ou a
+direita deste no devera levar em conta o melhor uso de memoria e a
+diferenca de tamanho entre as palavras Essa decisao e um
+componente importante no trabalho pratico e precisa ser
+tomada com atencao
+Para construir a tabela HASH deve se utilizar o encadeamento
+com listas
+Implementar uma funcao de busca por textos com base em
+termo de busca utilizando o indice invertido para localizar os
+textos em que ele aparece Os textos devem ser retornados de
+Universidade Federal de Vicosa
+Campus Florestal
+Algoritmos e Estruturas de Dados II
+forma ordenada pela sua relevancia para a consulta ou seja textos que
+contem um maior numero de ocorrencias do termo de busca
+devem aparecer primeiro Existem varios metodos que calculam a
+relevancia de documentos de uma colecao para uma dada consulta
+Neste trabalho sera utiizado um metodo de ponderacao baseada no
+calculo da frequencia da ocorrencia do termo nos documentos
+conhecida como TF IDF Term frequency Inverse Document
+Frequency Esse metodo e baseado na frequencia dos termos da
+consulta em cada documento TF da colecao bem como na
+frequencia inversa dos documentos IDF O componente IDF estima o
+quanto um termo ajuda a discriminar os documentos entre relevantes e
+nao relevantes Um termo que aparece em muitos documentos tem
+valor de IDF baixo enquanto um termo que aparece em poucos
+documentos apresenta IDF alto sendo um bom discriminador
+Dada uma consulta com q termos t t tq a relevancia de um
+documento i r e computada como
+Onde
+ni numero de termos distintos do
+documento 
+wj i peso do termo tj no documento i
+fj i numero de ocorrencias do termo tj
+no documento i
+dj numero de documentos na colecao
+que contem o termo tj
+N numero de documentos na colecao
+Se o termo tj nao aparece no documento
+i fj i
+Para exemplificar considere uma consulta com os termos quer e
+todos
+dois termos
+dois documentos
+o documento tem termos
+o documento tem termos
+Exemplo retirado do material da Profa Jussara Marques de Almeida
+Universidade Federal de Vicosa
+Campus Florestal
+Algoritmos e Estruturas de Dados II
+o numero de ocorrencias do primeiro termo no
+documento e e no documento e  logo f e f Alem
+disto dj
+o numero de ocorrencias do segundo termo no
+documento e e no documento e logo
+Logo as relevancias dos documentos pra esta consulta sao
+A partir das relevancias calculadas para cada documento o metodo
+retornara os documentos ordenados da seguinte forma
+Texto 
+Texto 
+Imprimir o indice invertido para cada um dos TADs usados
+imprime as palavras em ordem alfabetica uma por linha seguidas da
+lista das ocorrencias ordenada pelo indice do documento
+Implementar um menu com as seguintes opcoes receber o
+arquivo de entrada com os textos a serem indexados construir o
+indice invertido a partir dos textos de entrada usando os TADs arvore
+PATRICIA e tabela HASH imprimir os indices invertidos para cada um
+dos TADs em separado contendo as palavras em ordem alfabetica uma
+por linha com suas respectivas listas de ocorrencias e d realizar
+buscas por um ou mais termo de busca em cada um dos indices
+construidos
+Medir o desempenho para cada um dos TADs em diferentes
+cenarios variando a entrada e o tamanho M da tabela HASH O seu
+programa deve estar preparado para medir o desempenho em
+termos do tempo de execucao e do consumo de memoria de
+cada um dos TADs para os diferentes cenarios no contexto das
+operacoes de criacao do indice e busca do termo
+Elaborar um relatorio sintetico contendo
+Capa com titulo e formacao do grupo
+Introducao com o objetivo do trabalho e as principais fontes
+referencias dos algoritmos utilizados
+Universidade Federal de Vicosa
+Campus Florestal
+Algoritmos e Estruturas de Dados II
+Metodologia documentando como o grupo ser organizou em termos
+da divisao e da execucao das tarefas e compartilhamento de codigo
+Descrever tambem os cenarios de teste planejados para se comparar
+as estruturas PATRICIA e HASH na criacao do indice invertido e
+consultas aos termos de busca
+Detalhes Tecnicos de Implementacao da PATRICIA para armazenar
+palavras ou seja destacando as adaptacoes realizadas no algoritmo
+original para permitir a insercao de palavras e da tabela HASH
+Resultados e Discussoes com tabelas e graficos apresentando as
+estatisticas coletadas para os diferentes cenarios avaliados Nessa
+secao os resultados devem ser comparados e discutidos a luz da
+teoria apresentada em sala de aula
+Consideracoes finais em que o grupo pode registrar as principais
+facilidades dificuldades e licoes aprendidas e
+Referencias bibliograficas utilizadas
+Entrega
+O trabalho devera ser entregue via PVANET Moodle por um dos
+integrantes do grupo atraves de um unico arquivo compactado em
+formato zip e nomeado com nome do grupo contendo
+o codigo fonte do programa em C com implementacoes dos TADs e
+manipulacao dos textos de entrada em arquivos separados
+o arquivos utilizados como entrada textos para testes
+o arquivo Makefile com utilitario make para compilacao e
+geracao de codigo executavel automaticamente
+o arquivo leiame txt com explicacoes de uso e execucao do
+programa e
+o relatorio em formato pdf
+Data de entrega
+Data de apresentacao entrevista em cronograma a
+ser divulgado
+Comentarios Gerais
+O grupo devera tomar como base os codigos discutidos em aula
+retirados do livro texto da disciplina Ziviani Outras fontes
+poderao ser consultadas
+O codigo fonte DEVERA ser devidamente comentado
+Universidade Federal de Vicosa
+Campus Florestal
+Algoritmos e Estruturas de Dados II
+As implementacoes relativas a cada TAD devem estar em arquivos
+separados
+As operacoes referentes a leitura e a carga dos dados devem estar em
+um arquivo separado
+As operacoes referentes a montagem do indice invertido devem estar
+em um arquivo separado
+Atencao quanto ao uso e inicializacoes de variaveis no programa
+principal que podem comprometer o funcionamento do seu codigo
+Encapsular funcoes sempre que possivel
+Os arquivos fornecidos como exemplo devem ser utilizados apenas para
+fins de verificacao e validacao do algoritmo Outros textos com um
+maior numero de palavras devem ser utilizados e entregues junto ao
+codigo
+Os integrantes do grupo deverao ser identificados no cabecalho de
+TODOS os arquivos do codigo fonte
+Apesar de o trabalho ser em grupo a nota podera ser individualmente
+atribuida a criterio da professora entrevistas individuais poderao ser
+realizadas
+Em caso de plagio entre trabalhos sera atribuida nota zero para todos
+os envolvidos dos grupos em questao e atribuicao de conceito Se
+houver discussoes entre os grupos acerca de solucoes para questoes
+especificas dos algoritmos nao ha problema desde que isso esteja
+devidamente documentado no relatorio e no codigo fonte na funcao
+correspondente
+Trabalhos entregues em atraso ou que nao sejam apresentados pelo
+grupo receberao nota ZERO
+Durante o desenvolvimento do trabalho cabera ao grupo propor e
+construir uma implementacao para o problema apresentado A
+professora e os monitores nao analisarao erros em codigo fonte nem
+tampouco fornecerao detalhes tecnicos da solucao a ser construida
