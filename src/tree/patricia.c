@@ -111,6 +111,7 @@ TipoPatNo *Insere(char k[], TipoPatNo **no, int *Memoria, int idDoc){
                 else{
                     if(dadosAux->prox == NULL){
                         dadosAux->prox = (ApontadorDadosPat)malloc(sizeof(DadosPat));
+                        (*Memoria) += sizeof(ApontadorDadosPat);
                         dadosAux = dadosAux->prox;
                         dadosAux->idDoc = idDoc;
                         dadosAux->qtde = 1;

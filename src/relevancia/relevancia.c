@@ -32,6 +32,9 @@ void buscaPorTexto(TabelaHash *tabelaHash, int *Memoria){
     int N;
     N = tabelaHash->N;
     float r;
+
+    clock_t tempo = clock();
+
     // A arvore BST ArvoreRelevancia guarda a relevancia os dos documentos
     ArvoreRelevancia raiz;
     inicializaArvoreRelevancia(&raiz.no);
@@ -42,12 +45,27 @@ void buscaPorTexto(TabelaHash *tabelaHash, int *Memoria){
     }
     printf("\nRelevancia dos textos:\n\n");
     percursoRelevancia(&raiz.no);
+    tempo = clock() - tempo;
+    printf("Tempo de execucao: %f ms\n\n", ((float)(tempo) * 1000)/(CLOCKS_PER_SEC));
     freeArvoreRelevancia(&raiz.no);
 }
 
 
 // Função que calcula a relevancia de um documento atravez do TF-IDF dos termos em um documento
 float relevanciaDocumento(TabelaHash *tabelaHash, char **termos, int idDoc, int q){
+    
+    //q = quantidade de palavras a serem pesquisadas 
+
+    //ni = número de termos distintos do documento i 
+
+    //w = peso do termo tj no documento i 
+
+    //f = número de ocorrências do termo tj no documento i 
+
+    //dj = número de documentos na coleção que contém o termo tj 
+
+    //N = número de documentos na coleção. 
+
     ApontadorDados dados;
     ApontadorCelula celula;
     Lista *lista;
@@ -121,6 +139,7 @@ void inicializaArvoreRelevancia(NoRelevancia **raiz){
     *raiz = NULL;
 }
 
+// Insercao na arvore de relevancia
 void insercaoR(NoRelevancia **no, float r, int idDoc){
     if (*no == NULL){
         (*no) = (NoRelevancia*)malloc(sizeof(NoRelevancia));
@@ -139,6 +158,7 @@ void insercaoR(NoRelevancia **no, float r, int idDoc){
     }
 }
 
+// Percurso decrescente
 void percursoRelevancia(NoRelevancia **no){
     if((*no) != NULL){
         percursoRelevancia(&(*no)->dir);
@@ -193,15 +213,20 @@ void buscaPorTextoPat(TipoPatNo *patricia, int N, int *Memoria){
 
     float r; //relevancia
 
+    clock_t tempo = clock();
+
     ArvoreRelevancia raiz;
     inicializaArvoreRelevancia(&raiz.no);
     for(i = 0; i < N; i++){
         r = relevanciaDocumentoPat(patricia, termos, i, q, N);
-        insercaoR(&raiz.no, r, i);
+        insercaoR(&raiz.no, r, i); 
         (*Memoria) += sizeof(NoRelevancia*);
     }
     printf("\nRelevancia dos textos:\n\n");
     percursoRelevancia(&raiz.no);
+
+    tempo = clock() - tempo;
+    printf("Tempo de execucao: %f ms\n\n", ((float)(tempo) * 1000)/(CLOCKS_PER_SEC));
     freeArvoreRelevancia(&raiz.no);
 }
 
@@ -209,17 +234,17 @@ void buscaPorTextoPat(TipoPatNo *patricia, int N, int *Memoria){
 // Função que calcula a relevancia de um documento atravez do TF-IDF dos termos em um documento
 float relevanciaDocumentoPat(TipoPatNo *patricia, char **termos, int idDoc, int q, int N){
 
-    //q = quantidade de palavras a serem pesquisadas OK
+    //q = quantidade de palavras a serem pesquisadas 
 
-    //ni = número de termos distintos do documento i OK
+    //ni = número de termos distintos do documento i 
 
-    //w = peso do termo tj no documento i
+    //w = peso do termo tj no documento i 
 
-    //f = número de ocorrências do termo tj no documento i OK
+    //f = número de ocorrências do termo tj no documento i 
 
-    //dj = número de documentos na coleção que contém o termo tj OK
+    //dj = número de documentos na coleção que contém o termo tj 
 
-    //N = número de documentos na coleção. OK
+    //N = número de documentos na coleção. 
 
     int ni, dj, f;
     float w, r;

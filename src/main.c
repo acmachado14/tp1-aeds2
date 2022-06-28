@@ -147,10 +147,8 @@ int main(){
             case 6:{
                 if(arquivoEntrada && construirIndiceTabela){
                     int Memoria = 0;
-                    clock_t tempo = clock();
                     buscaPorTexto(&tabelaHash, &Memoria);
-                    tempo = clock() - tempo;
-                    printf("Tempo de execucao: %f ms\nMemoria alocada: %d bytes\n\n", ((float)(tempo) * 1000)/(CLOCKS_PER_SEC), Memoria);
+                    printf("Memoria alocada: %d bytes\n\n", Memoria);
                 }
                 else{
                     if(!arquivoEntrada){
@@ -167,10 +165,8 @@ int main(){
             case 7:{
                 if(arquivoEntrada && construirIndicePatricia){
                     int Memoria = 0;
-                    clock_t tempo = clock();
                     buscaPorTextoPat(pat, N, &Memoria);
-                    tempo = clock() - tempo;
-                    printf("Tempo de execucao: %lf ms\nMemoria alocada: %d bytes\n\n", ((double)(tempo) * 1000)/(CLOCKS_PER_SEC), Memoria);
+                    printf("Memoria alocada: %d bytes\n\n", Memoria);
                 }
                 else{
                     if(!arquivoEntrada){

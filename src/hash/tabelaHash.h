@@ -33,8 +33,8 @@ typedef struct{
 typedef struct{
     Lista *tabela_hash;
     Pesos pesos;
-    int N;
-    int M;
+    int N;  //Numero de arquivos
+    int M;  //Tamanho tabela hash
 }TabelaHash;
 
 

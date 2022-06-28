@@ -127,9 +127,9 @@ int tamanhoTabelaHash(int N){
     int totalChaves; // numero aproximado de palavras na tabela hash
     int i, j, soma;
     int primoAntecessor, primoSucessor;
-    totalChaves = N * 25; // Se desejar almentar ou diminuir o tamanho da tabela hash deve almentar ou diminuir
+    totalChaves = N * 300; // Se desejar almentar ou diminuir o tamanho da tabela hash deve almentar ou diminuir
                           // o número que multiplica N. Ele representa o numero aproximado de palavras diferentes por arquivo
-    a = 4;
+    a = 4; //fator de carga
     m = totalChaves / a;
     for(i = m ; i <= m + 1000; i++){
         soma = 0;
