@@ -28,5 +28,82 @@ Como executar:
 
 ----------------------------------------------------------------------------------------------------------------------
 Os casos de testes ficam armazenados dentro da pasta "tests", caso queira executar algum novo arquivo de teste, e necessario
-cria-lo seguinto a ordem dos arquivos ja existentes, exemplo: arquivo10, arquivo11, ... Tabem e preciso adiciona-lo a um outro
+cria-lo seguinto a ordem dos arquivos ja existentes, exemplo: arquivo10, arquivo11, ... Tambem e preciso adiciona-lo a um outro
 arquivo de leitura, como acontece em "entrada.txt".
+----------------------------------------------------------------------------------------------------------------------
+Modelos de teste para ser executados:
+Modelo 1 -Patricia Copiar a partir da proxima linha
+1
+entrada.txt
+3
+7
+2
+teste
+tempo
+
+Modelo 2 -Hash Copiar a partir da proxima linha
+1
+entrada.txt
+2
+6
+2
+teste
+tempo
+
+Modelo 3 -Patricia Copiar a partir da proxima linha
+1
+entrada.txt
+3
+7
+5
+teste
+dia
+dos
+mais
+pipoca
+
+Modelo 4 -Hash Copiar a partir da proxima linha
+1
+entrada.txt
+2
+6
+5
+teste
+dia
+dos
+mais
+pipoca
+
+Modelo 5 -Patricia Copiar a partir da proxima linha
+1
+entrada.txt
+3
+7
+10
+teste
+dia
+dos
+mais
+pipoca
+tempo
+acabar
+não
+se
+batatinha
+
+Modelo 6 -Hash Copiar a partir da proxima linha
+1
+entrada.txt
+2
+6
+10
+teste
+dia
+dos
+mais
+pipoca
+tempo
+acabar
+não
+se
+batatinha
